@@ -1,0 +1,926 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Work Sample — Analista MTM | Proceso Etiquetado SVC</title>
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap');
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+  body { font-family: 'Inter', 'Segoe UI', sans-serif; background: #eef0f8; color: #1a1f3c; min-height: 100vh; line-height: 1.65; }
+
+  /* ══ HERO HEADER ══ */
+  .header {
+    background: linear-gradient(120deg, #1e2460 0%, #2d3277 60%, #3a3f99 100%);
+    padding: 36px 60px 32px;
+    position: relative; overflow: hidden;
+  }
+  .header::before {
+    content: ''; position: absolute; top: -60px; right: -60px;
+    width: 320px; height: 320px; border-radius: 50%;
+    background: rgba(255,230,0,0.07); pointer-events: none;
+  }
+  .header::after {
+    content: ''; position: absolute; bottom: -80px; right: 120px;
+    width: 200px; height: 200px; border-radius: 50%;
+    background: rgba(52,131,250,0.12); pointer-events: none;
+  }
+  .header-badge {
+    display: inline-block;
+    background: #ffe600; color: #1e2460;
+    font-weight: 800; font-size: 10px; letter-spacing: 1.5px;
+    padding: 5px 14px; border-radius: 20px;
+    text-transform: uppercase; margin-bottom: 12px;
+  }
+  .header h1 {
+    font-size: 28px; font-weight: 900; color: #fff;
+    letter-spacing: -.3px; line-height: 1.2; margin-bottom: 6px;
+  }
+  .header h1 span { color: #ffe600; }
+  .header p { font-size: 13px; color: rgba(255,255,255,.55); font-weight: 400; }
+
+  /* ══ TABS ══ */
+  .tabs {
+    display: flex; gap: 6px;
+    background: #2d3277; padding: 14px 60px 0;
+  }
+  .tab {
+    padding: 10px 22px 12px; cursor: pointer; font-size: 13px; font-weight: 600;
+    color: rgba(255,255,255,.45); border-radius: 8px 8px 0 0;
+    transition: all .2s; letter-spacing: .2px; border: none; background: transparent;
+  }
+  .tab.active { background: #eef0f8; color: #2d3277; }
+  .tab:hover:not(.active) { color: rgba(255,255,255,.8); }
+
+  /* ══ SECTION ══ */
+  .section { display: none; padding: 40px 60px 60px; max-width: 1200px; margin: 0 auto; }
+  .section.active { display: block; }
+
+  /* ══ SLIDE TITLE (cada sección) ══ */
+  .slide-header {
+    display: flex; align-items: flex-start; gap: 20px;
+    margin-bottom: 36px; padding-bottom: 24px;
+    border-bottom: 2px solid #d8dbe8;
+  }
+  .slide-number {
+    background: #2d3277; color: #ffe600;
+    font-size: 11px; font-weight: 900; letter-spacing: 1px;
+    padding: 6px 12px; border-radius: 6px; white-space: nowrap; margin-top: 4px;
+  }
+  .slide-header h2 { font-size: 26px; font-weight: 900; color: #1a1f3c; letter-spacing: -.3px; }
+  .slide-header p  { font-size: 14px; color: #7a83b0; margin-top: 4px; }
+
+  /* ══ CARD ══ */
+  .card {
+    background: #fff; border-radius: 16px;
+    padding: 32px; margin-bottom: 24px;
+    box-shadow: 0 4px 24px rgba(44,50,119,0.08);
+  }
+  .card-title {
+    font-size: 10px; font-weight: 800; color: #7a83b0;
+    text-transform: uppercase; letter-spacing: 1.5px; margin-bottom: 20px;
+  }
+
+  /* ══ FLUJO — tarjetas grandes ══ */
+  .flow { display: flex; align-items: stretch; gap: 0; flex-wrap: wrap; margin: 8px 0; }
+  .flow-step {
+    flex: 1; min-width: 120px; text-align: center;
+    background: #fff; border: 2px solid #e0e4f0;
+    border-radius: 14px; padding: 20px 14px;
+    box-shadow: 0 2px 12px rgba(44,50,119,0.06);
+    transition: transform .15s;
+  }
+  .flow-step:hover { transform: translateY(-3px); }
+  .flow-step.highlight {
+    background: #2d3277; border-color: #2d3277;
+    box-shadow: 0 8px 28px rgba(45,50,119,0.28);
+    transform: translateY(-4px);
+  }
+  .flow-step.highlight .step-name { color: #ffe600; font-size: 15px; }
+  .flow-step.highlight .step-prod { color: rgba(255,255,255,.7); }
+  .flow-step.highlight .step-tag  { background: rgba(255,230,0,.2); color: #ffe600; }
+  .step-tag {
+    display: inline-block; font-size: 9px; font-weight: 700; letter-spacing: 1px;
+    text-transform: uppercase; background: #eef0f8; color: #7a83b0;
+    padding: 2px 8px; border-radius: 10px; margin-bottom: 8px;
+  }
+  .step-name { font-size: 14px; font-weight: 800; color: #1a1f3c; }
+  .step-prod { font-size: 13px; font-weight: 700; color: #3483fa; margin-top: 6px; }
+  .arrow { color: #c8cce0; font-size: 24px; padding: 0 6px; align-self: center; flex-shrink: 0; }
+
+  /* ══ TIMELINE DE PASOS ══ */
+  .timeline { position: relative; padding-left: 48px; margin: 8px 0; }
+  .timeline::before {
+    content: ''; position: absolute; left: 15px; top: 0; bottom: 0;
+    width: 2px; background: linear-gradient(to bottom, #2d3277, #3483fa44);
+  }
+  .timeline-item { position: relative; margin-bottom: 20px; }
+  .timeline-item:last-child { margin-bottom: 0; }
+  .tl-dot {
+    position: absolute; left: -40px; top: 2px;
+    width: 30px; height: 30px; border-radius: 50%;
+    background: #2d3277; color: #fff;
+    display: flex; align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 800; box-shadow: 0 2px 8px rgba(45,50,119,0.3);
+  }
+  .tl-dot.machine { background: #b0b8d0; }
+  .tl-content { background: #f8f9ff; border-radius: 10px; padding: 14px 18px; }
+  .tl-title { font-size: 14px; font-weight: 700; color: #1a1f3c; margin-bottom: 4px; }
+  .tl-desc  { font-size: 13px; color: #555; line-height: 1.65; }
+  .tl-content.machine { background: #f4f5f8; }
+  .tl-content.machine .tl-title { color: #a0a8c0; }
+  .tl-content.machine .tl-desc  { color: #b0b8c8; }
+
+  /* ══ HERO NUMBER ══ */
+  .hero-number-wrap {
+    background: linear-gradient(135deg, #1e2460, #2d3277);
+    border-radius: 16px; padding: 24px 32px;
+    text-align: center; margin-bottom: 20px;
+    box-shadow: 0 6px 24px rgba(45,50,119,0.18);
+  }
+  .hero-label { font-size: 11px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.5); text-transform: uppercase; margin-bottom: 6px; }
+  .hero-number { font-size: 52px; font-weight: 900; color: #ffe600; line-height: 1; letter-spacing: -1px; }
+  .hero-unit   { font-size: 15px; font-weight: 600; color: rgba(255,255,255,.6); margin-top: 6px; }
+  .hero-sub    { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 8px; }
+
+  /* ══ STAT STRIP ══ */
+  .stat-strip { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px,1fr)); gap: 16px; margin-bottom: 24px; }
+  .stat-box {
+    background: #fff; border-radius: 14px; padding: 22px 20px; text-align: center;
+    box-shadow: 0 2px 12px rgba(44,50,119,0.07);
+  }
+  .stat-label { font-size: 10px; font-weight: 700; letter-spacing: 1.2px; color: #a0a8c0; text-transform: uppercase; margin-bottom: 6px; }
+  .stat-value { font-size: 28px; font-weight: 900; color: #2d3277; line-height: 1; }
+  .stat-unit  { font-size: 11px; color: #b0b8d0; margin-top: 4px; }
+  .stat-box.accent { background: #2d3277; }
+  .stat-box.accent .stat-label { color: rgba(255,255,255,.4); }
+  .stat-box.accent .stat-value { color: #ffe600; }
+  .stat-box.accent .stat-unit  { color: rgba(255,255,255,.3); }
+
+  /* ══ TABLES ══ */
+  table { width: 100%; border-collapse: collapse; font-size: 13px; }
+  th {
+    background: #f4f5fb; color: #2d3277; text-transform: uppercase;
+    font-size: 10px; letter-spacing: 1px; padding: 12px 16px; text-align: left; font-weight: 800;
+  }
+  th:first-child { border-radius: 8px 0 0 0; }
+  th:last-child  { border-radius: 0 8px 0 0; }
+  td { padding: 11px 16px; border-bottom: 1px solid #f0f2f8; color: #333; font-size: 13px; }
+  tr:last-child td { border-bottom: none; }
+  tr:hover td { background: #f8f9ff; }
+  tr.total-row td { background: #2d3277; color: #fff; font-weight: 800; font-size: 14px; border-bottom: none; }
+  .code-badge {
+    background: #eef2ff; color: #3483fa; border: none;
+    padding: 3px 10px; border-radius: 6px; font-family: monospace; font-size: 12px; font-weight: 700;
+  }
+  .tmu-val { color: #3483fa; font-weight: 700; }
+  .seg-val { color: #00a650; font-weight: 700; }
+
+  /* ══ FORMULA ══ */
+  .formula-box {
+    background: #1e2460; border-radius: 12px;
+    padding: 20px 24px; margin: 20px 0;
+    font-family: 'Courier New', monospace; font-size: 14px; color: #ffe600;
+    box-shadow: 0 4px 16px rgba(30,36,96,0.2);
+  }
+  .formula-box span { color: #a0ffc0; }
+
+  /* ══ CALCULADORA ══ */
+  .calc-layout { display: grid; grid-template-columns: 340px 1fr; gap: 28px; align-items: start; }
+  @media(max-width:800px){ .calc-layout { grid-template-columns: 1fr; } }
+
+  .calc-panel { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 4px 24px rgba(44,50,119,0.08); }
+  .calc-panel-title { font-size: 10px; font-weight: 800; letter-spacing: 1.5px; color: #a0a8c0; text-transform: uppercase; margin-bottom: 20px; }
+
+  .input-group { margin-bottom: 18px; }
+  .input-group label { display: block; font-size: 11px; font-weight: 700; color: #7a83b0; letter-spacing: .8px; text-transform: uppercase; margin-bottom: 7px; }
+  .input-group input {
+    width: 100%; background: #f4f5fb; border: 2px solid transparent; color: #1a1f3c;
+    padding: 11px 16px; border-radius: 10px; font-size: 16px; font-weight: 600;
+    outline: none; transition: all .2s;
+  }
+  .input-group input:focus { border-color: #3483fa; background: #fff; box-shadow: 0 0 0 3px rgba(52,131,250,0.12); }
+
+  .btn-calc {
+    background: #ffe600; color: #1e2460; border: none;
+    padding: 14px; border-radius: 12px; font-size: 15px; font-weight: 900;
+    cursor: pointer; width: 100%; letter-spacing: .3px;
+    transition: all .2s; margin-top: 4px;
+    box-shadow: 0 4px 16px rgba(255,230,0,0.35);
+  }
+  .btn-calc:hover { transform: translateY(-2px); box-shadow: 0 8px 24px rgba(255,230,0,0.45); }
+  .btn-calc:active { transform: translateY(0); }
+
+  /* ══ HC RESULTADO ══ */
+  .result-panel { background: #fff; border-radius: 16px; padding: 28px; box-shadow: 0 4px 24px rgba(44,50,119,0.08); }
+  .hc-hero {
+    background: linear-gradient(120deg, #1e2460, #2d3277);
+    border-radius: 14px; padding: 20px 24px; text-align: center; margin-bottom: 16px;
+  }
+  .hc-hero-label { font-size: 10px; font-weight: 700; letter-spacing: 1.5px; color: rgba(255,255,255,.45); text-transform: uppercase; margin-bottom: 4px; }
+  .hc-hero-number { font-size: 48px; font-weight: 900; color: #ffe600; line-height: 1; letter-spacing: -1px; }
+  .hc-hero-sub    { font-size: 12px; color: rgba(255,255,255,.4); margin-top: 6px; }
+
+  .hc-table-wrap { border-radius: 12px; overflow: hidden; border: 1px solid #eaecf4; }
+  .hc-row { display: grid; grid-template-columns: 1.6fr 1fr 1fr 1fr 70px; }
+  .hc-head { background: #f4f5fb; }
+  .hc-head .hc-cell { color: #2d3277; font-size: 10px; font-weight: 800; text-transform: uppercase; letter-spacing: 1px; }
+  .hc-cell { padding: 12px 14px; border-bottom: 1px solid #f0f2f8; font-size: 13px; color: #333; }
+  .hc-row:not(.hc-head):hover .hc-cell { background: #f8f9ff; }
+  .hc-row.total-hc .hc-cell { background: #2d3277; color: #fff; font-weight: 800; font-size: 14px; border-bottom: none; }
+  .hc-row.etiquetado-hc .hc-cell { background: #fffde8; font-weight: 600; }
+  .badge-hc {
+    background: #eef2ff; color: #3483fa; border-radius: 50%;
+    width: 34px; height: 34px; display: flex; align-items: center; justify-content: center;
+    font-weight: 900; font-size: 14px; margin: auto;
+  }
+  .badge-hc.yellow { background: #ffe600; color: #1e2460; }
+
+  /* ══ RESULT GRID (pestaña 2) ══ */
+  .result-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(180px,1fr)); gap: 16px; margin-top: 20px; }
+  .result-box { background: #f8f9ff; border-radius: 14px; padding: 22px 16px; text-align: center; }
+  .result-label { font-size: 10px; font-weight: 700; letter-spacing: 1px; color: #a0a8c0; text-transform: uppercase; margin-bottom: 6px; }
+  .result-value { font-size: 38px; font-weight: 900; color: #2d3277; line-height: 1; }
+  .result-unit  { font-size: 11px; color: #b0b8d0; margin-top: 6px; }
+  .result-box.highlight { background: #2d3277; }
+  .result-box.highlight .result-label { color: rgba(255,255,255,.4); }
+  .result-box.highlight .result-value { color: #ffe600; font-size: 38px; }
+  .result-box.highlight .result-unit  { color: rgba(255,255,255,.3); }
+
+  /* ══ RAZON CALLOUT ══ */
+  .razon {
+    background: #eef3ff; border-radius: 14px;
+    padding: 20px 24px; margin: 20px 0;
+    font-size: 13.5px; line-height: 1.75; color: #2a3070;
+    border-left: 5px solid #3483fa;
+  }
+  .razon-title {
+    font-size: 11px; font-weight: 800; color: #3483fa;
+    text-transform: uppercase; letter-spacing: 1.2px; margin-bottom: 10px;
+    display: flex; align-items: center; gap: 6px;
+  }
+  .razon strong { color: #1a1f3c; font-weight: 800; }
+  .razon em { color: #3483fa; font-style: normal; font-weight: 700; }
+
+  .inline-razon {
+    font-size: 11px; color: #3483fa; font-style: italic;
+    padding: 3px 8px; background: #dde8ff; border-radius: 4px;
+    display: inline-block; margin-top: 3px;
+  }
+
+  /* ══ NOTAS ══ */
+  .note { font-size: 11px; color: #b0b8d0; margin-top: 12px; font-style: italic; line-height: 1.7; }
+
+  /* ══ FOOTER ══ */
+  .footer {
+    text-align: center; padding: 28px; color: #a0a8c0; font-size: 11px;
+    border-top: 1px solid #dde0ec; margin-top: 0; background: #fff;
+    letter-spacing: .5px;
+  }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-badge">MTM · Operational Excellence CORP · Transportes</div>
+  <h1>Work Sample — Analista <span>MTM</span></h1>
+  <p>Proceso Etiquetado SVC · Paquetes no voluminosos · Sistema MTM-UAS · Calculadora HC</p>
+</div>
+
+<!-- TABS -->
+<div class="tabs">
+  <div class="tab active" onclick="showTab('proceso')">01 · Descripción del Proceso</div>
+  <div class="tab" onclick="showTab('mtm')">02 · Cálculo MTM-UAS</div>
+  <div class="tab" onclick="showTab('calc')">03 · Calculadora HC</div>
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PESTAÑA 1 — DESCRIPCIÓN DEL PROCESO
+══════════════════════════════════════════════ -->
+<div class="section active" id="tab-proceso">
+
+  <div class="slide-header">
+    <div class="slide-number">SLIDE 01</div>
+    <div>
+      <h2>Flujo SVC y Descripción del Proceso</h2>
+      <p>Mapeo completo del proceso · 5 estaciones · Foco en Etiquetado</p>
+    </div>
+  </div>
+
+  <div class="razon">
+    <div class="razon-title">💡 Por dónde empezamos</div>
+    Lo primero fue entender el flujo completo. El proceso SVC tiene <strong>5 etapas en secuencia</strong>. Cada etapa tiene productividad medida (paquetes por hora por persona). El problema: <strong>Etiquetado no tenía ese dato</strong> — marcado como "???" en el original. Sin ese número no se puede planificar. El objetivo fue <em>calcularlo con MTM</em> y luego construir la calculadora con todos los datos juntos.
+  </div>
+
+  <div class="card">
+    <div class="card-title">Flujo de proceso · SVC · Paquetes no voluminosos</div>
+    <div class="flow">
+      <div class="flow-step">
+        <div class="step-tag">Paso 1</div>
+        <div class="step-name">Inbound</div>
+        <div class="step-prod">1.128 pqt/h</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-step">
+        <div class="step-tag">Paso 2</div>
+        <div class="step-name">Inducción</div>
+        <div class="step-prod">1.684 pqt/h</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-step highlight">
+        <div class="step-tag">Paso 3 · MTM</div>
+        <div class="step-name">Etiquetado</div>
+        <div class="step-prod">332 pqt/h</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-step">
+        <div class="step-tag">Paso 4</div>
+        <div class="step-name">Pesca</div>
+        <div class="step-prod">1.129 pqt/h</div>
+      </div>
+      <div class="arrow">→</div>
+      <div class="flow-step">
+        <div class="step-tag">Paso 5</div>
+        <div class="step-name">Sorting</div>
+        <div class="step-prod">330 pqt/h</div>
+      </div>
+    </div>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Descripción del proceso de Etiquetado · Según video</div>
+    <div class="razon">
+      <div class="razon-title">💡 Cómo describimos el proceso</div>
+      Observamos el video y anotamos <strong>cada acción del operario por separado</strong>. La razón es simple: en MTM <strong>cada movimiento tiene su propio código y tiempo</strong>. Si mezclamos dos acciones en una, el tiempo calculado queda mal. Por eso "poner la etiqueta" se divide en posicionar + presionar + verificar — tres cosas distintas con tiempos distintos.
+    </div>
+    <div class="timeline">
+      <div class="timeline-item">
+        <div class="tl-dot">1</div>
+        <div class="tl-content">
+          <div class="tl-title">Ingreso del paquete al puesto</div>
+          <div class="tl-desc">El operario toma cada paquete y lo coloca sobre la mesa o transportador de rodillos, frente al equipo de impresión y al lector. Alcance de distancia media con colocación controlada.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot">2</div>
+        <div class="tl-content">
+          <div class="tl-title">Lectura / identificación del bulto</div>
+          <div class="tl-desc">El operario acerca el paquete al dispositivo de lectura fijo (o usa lector manual) para identificarlo en el sistema. Esto vincula el envío con la etiqueta correspondiente. Requiere posicionamiento preciso y enfoque visual.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot machine">3</div>
+        <div class="tl-content machine">
+          <div class="tl-title">Generación e impresión de la etiqueta · Tiempo de máquina</div>
+          <div class="tl-desc">El sistema emite la orden y la impresora genera la etiqueta autoadhesiva. El operario no realiza movimientos durante este tiempo — no se computa en MTM.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot">4</div>
+        <div class="tl-content">
+          <div class="tl-title">Retiro de la etiqueta impresa</div>
+          <div class="tl-desc">El operario alcanza la impresora y retira la etiqueta recién impresa. La acción incluye alcanzar, tomar y despegar del soporte (backing) con manipulación fina de dedos.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot">5</div>
+        <div class="tl-content">
+          <div class="tl-title">Colocación de la etiqueta en el paquete</div>
+          <div class="tl-desc">El operario adhiere la etiqueta sobre una cara visible del bulto. Requiere posicionamiento controlado para alinearla, seguido de presión para garantizar adhesión completa.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot">6</div>
+        <div class="tl-content">
+          <div class="tl-title">Verificación visual y acomodo</div>
+          <div class="tl-desc">Inspección visual rápida para confirmar que la etiqueta quedó correctamente fijada, sin pliegues, y que el código de barras es legible. Ajusta el paquete si es necesario.</div>
+        </div>
+      </div>
+      <div class="timeline-item">
+        <div class="tl-dot">7</div>
+        <div class="tl-content">
+          <div class="tl-title">Continuidad del flujo</div>
+          <div class="tl-desc">El paquete etiquetado avanza en el transportador hacia Pesca. El operario repite el mismo ciclo con el siguiente bulto. Proceso secuencial y repetitivo.</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PESTAÑA 2 — CÁLCULO MTM
+══════════════════════════════════════════════ -->
+<div class="section" id="tab-mtm">
+
+  <div class="slide-header">
+    <div class="slide-number">SLIDE 02</div>
+    <div>
+      <h2>Cálculo MTM-UAS · Productividad de Etiquetado</h2>
+      <p>De movimientos a paquetes por hora · Sistema MTM-UAS · Tolerancia 15%</p>
+    </div>
+  </div>
+
+  <div class="razon">
+    <div class="razon-title">💡 Qué es MTM y cómo lo usamos acá</div>
+    MTM (Methods-Time Measurement) es un sistema que dice: <strong>"cada movimiento humano tiene un tiempo estándar"</strong>. No importa quién lo haga — si está entrenado y trabaja a ritmo normal, ese tiempo se cumple. La idea es simple: en lugar de cronometrar a cada persona con un reloj, usamos una tabla de movimientos predefinidos. Cada movimiento tiene un código y un valor en <strong>TMU (Time Measurement Unit)</strong>. 1 TMU = 0.036 segundos. En una hora hay 100.000 TMU. Entonces si sumamos todos los TMU de un ciclo completo, sabemos cuánto tarda ese ciclo — y con eso calculamos cuántos paquetes puede hacer una persona por hora.
+    <br><br>
+    En este caso, usamos la variante <em>MTM-UAS</em> (Universal Analysis System), que es una versión simplificada del MTM original, pensada para analizar procesos en ambientes industriales y logísticos. Los códigos tienen letras y números: las letras indican el tipo de movimiento (AA = alcanzar, PA = posicionar, HA = sostener y manipular, etc.), y el número indica la dificultad o distancia (1 = fácil/corto, 2 = medio, 3 = difícil/largo).
+  </div>
+
+  <div class="card">
+    <div class="card-title">Referencia — Sistema MTM-UAS (extracto códigos relevantes)</div>
+    <table>
+      <thead>
+        <tr><th>Código</th><th>TMU</th><th>Segundos</th><th>Descripción</th></tr>
+      </thead>
+      <tbody>
+        <tr><td><span class="code-badge">AB2</span></td><td class="tmu-val">45.0</td><td class="seg-val">1.62</td><td>Alcanzar y tomar objeto — distancia media, fácil orientación</td></tr>
+        <tr><td><span class="code-badge">AB1</span></td><td class="tmu-val">30.0</td><td class="seg-val">1.08</td><td>Alcanzar y tomar objeto — distancia corta, fácil orientación</td></tr>
+        <tr><td><span class="code-badge">PB1</span></td><td class="tmu-val">20.0</td><td class="seg-val">0.72</td><td>Colocar objeto — posición simple, distancia corta</td></tr>
+        <tr><td><span class="code-badge">PB2</span></td><td class="tmu-val">30.0</td><td class="seg-val">1.08</td><td>Colocar objeto — posición simple, distancia media</td></tr>
+        <tr><td><span class="code-badge">PA2</span></td><td class="tmu-val">20.0</td><td class="seg-val">0.72</td><td>Posicionar objeto — precisión moderada</td></tr>
+        <tr><td><span class="code-badge">HA1</span></td><td class="tmu-val">25.0</td><td class="seg-val">0.90</td><td>Sostener y manipular — acción simple</td></tr>
+        <tr><td><span class="code-badge">HA2</span></td><td class="tmu-val">45.0</td><td class="seg-val">1.62</td><td>Sostener y manipular — acción con dificultad moderada</td></tr>
+        <tr><td><span class="code-badge">EF1</span></td><td class="tmu-val">7.3</td><td class="seg-val">0.26</td><td>Enfoque visual</td></tr>
+        <tr><td><span class="code-badge">EH1</span></td><td class="tmu-val">20.0</td><td class="seg-val">0.72</td><td>Inspección visual — verificación rápida</td></tr>
+      </tbody>
+    </table>
+    <p class="note">Referencia: 1 TMU = 0.036 segundos · 1 hora = 100.000 TMU (estándar MTM)</p>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Análisis MTM-UAS — Proceso Etiquetado (por ciclo/unidad)</div>
+
+    <div class="razon">
+      <div class="razon-title">💡 Cómo elegimos cada código</div>
+      Con la descripción del video en mano, fuimos paso a paso asignando un código MTM a cada movimiento. El criterio fue: <strong>¿qué tipo de movimiento es?</strong> y <strong>¿qué tan difícil o lejos es?</strong>
+      <br><br>
+      — <em>Tomar el paquete (AB2):</em> "A" significa alcanzar + agarrar. La "B" indica que el objeto está en un lugar fijo y es fácil de tomar. El "2" porque la distancia es media (el brazo se estira, pero no al máximo). Si fuera más cerca, sería AB1. Si hubiera que orientarlo, sería AC o AD.
+      <br>
+      — <em>Colocar en mesa (PB2):</em> "P" es posicionar/colocar. "B" significa que hay cierta precisión pero no es exigente. "2" por la distancia media. No usamos PB1 porque el paquete se coloca frente al lector, no simplemente se suelta.
+      <br>
+      — <em>Foco visual (EF1):</em> "E" es ojos. "F" es enfocar. Siempre es el mismo valor —7.3 TMU— porque es un acto visual puntual.
+      <br>
+      — <em>Posicionar ante lector (PA2):</em> El operario acomoda el paquete para que el lector lo lea. "PA" es una posición simple, "2" porque requiere ajuste moderado.
+      <br>
+      — <em>Impresión (paso 3):</em> La impresora trabaja sola. El operario no hace nada mientras imprime. Por eso el TMU es 0 — no se cuenta tiempo de máquina en MTM, solo tiempo del operario.
+      <br>
+      — <em>Retirar etiqueta (AB1 + HA2):</em> Primero alcanza la impresora (AB1, distancia corta). Luego despega la etiqueta del backing — eso requiere manipulación fina con los dedos, lo que en MTM es HA2 (45 TMU, no trivial).
+      <br>
+      — <em>Aplicar etiqueta (PA2 + HA1):</em> Primero posiciona la etiqueta sobre el paquete (PA2). Luego presiona para que quede pegada (HA1, acción simple de presión).
+      <br>
+      — <em>Verificación (EH1):</em> "EH" es inspección visual. El operario mira rápido si quedó bien. 20 TMU.
+      <br>
+      — <em>Liberar paquete (PB1):</em> Lo suelta o lo empuja para que avance. PB1 porque es una colocación simple, corta distancia.
+    </div>
+
+    <p style="font-size:12px; color:#3483fa; background:#e8f0ff; border:1px solid #3483fa; border-radius:6px; padding:10px 14px; margin-bottom:16px;">
+      Análisis actualizado según descripción real observada en el video del proceso. 7 pasos secuenciales.
+    </p>
+    <table>
+      <thead>
+        <tr>
+          <th>#</th>
+          <th>Elemento (según video)</th>
+          <th>Código MTM-UAS</th>
+          <th>TMU unitario</th>
+          <th>Frecuencia</th>
+          <th>TMU Total</th>
+          <th>Segundos</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr>
+          <td>1a</td>
+          <td>Tomar paquete — alcanzar y agarrar (ingreso al puesto)</td>
+          <td><span class="code-badge">AB2</span></td>
+          <td class="tmu-val">45.0</td>
+          <td>1</td>
+          <td class="tmu-val">45.0</td>
+          <td class="seg-val">1.62</td>
+        </tr>
+        <tr>
+          <td>1b</td>
+          <td>Colocar paquete en mesa / transportador de rodillos</td>
+          <td><span class="code-badge">PB2</span></td>
+          <td class="tmu-val">30.0</td>
+          <td>1</td>
+          <td class="tmu-val">30.0</td>
+          <td class="seg-val">1.08</td>
+        </tr>
+        <tr>
+          <td>2a</td>
+          <td>Enfoque visual — posicionar paquete ante lector</td>
+          <td><span class="code-badge">EF1</span></td>
+          <td class="tmu-val">7.3</td>
+          <td>1</td>
+          <td class="tmu-val">7.3</td>
+          <td class="seg-val">0.26</td>
+        </tr>
+        <tr>
+          <td>2b</td>
+          <td>Posicionar paquete frente al lector / identificación</td>
+          <td><span class="code-badge">PA2</span></td>
+          <td class="tmu-val">20.0</td>
+          <td>1</td>
+          <td class="tmu-val">20.0</td>
+          <td class="seg-val">0.72</td>
+        </tr>
+        <tr style="background:#f8f8f8;">
+          <td>3</td>
+          <td><em style="color:#a0a8c0;">Impresión de etiqueta — tiempo de máquina (operario no actúa)</em></td>
+          <td><span class="code-badge" style="color:#b0b8d0; border-color:#d0d8e8;">—</span></td>
+          <td style="color:#b0b8d0;">0.0</td>
+          <td style="color:#b0b8d0;">—</td>
+          <td style="color:#b0b8d0;">0.0</td>
+          <td style="color:#b0b8d0;">—</td>
+        </tr>
+        <tr>
+          <td>4a</td>
+          <td>Alcanzar etiqueta en impresora (retiro)</td>
+          <td><span class="code-badge">AB1</span></td>
+          <td class="tmu-val">30.0</td>
+          <td>1</td>
+          <td class="tmu-val">30.0</td>
+          <td class="seg-val">1.08</td>
+        </tr>
+        <tr>
+          <td>4b</td>
+          <td>Despegar etiqueta del soporte (manipulación fina)</td>
+          <td><span class="code-badge">HA2</span></td>
+          <td class="tmu-val">45.0</td>
+          <td>1</td>
+          <td class="tmu-val">45.0</td>
+          <td class="seg-val">1.62</td>
+        </tr>
+        <tr>
+          <td>5a</td>
+          <td>Posicionar etiqueta sobre cara del paquete</td>
+          <td><span class="code-badge">PA2</span></td>
+          <td class="tmu-val">20.0</td>
+          <td>1</td>
+          <td class="tmu-val">20.0</td>
+          <td class="seg-val">0.72</td>
+        </tr>
+        <tr>
+          <td>5b</td>
+          <td>Adherir etiqueta — presión para adhesión completa</td>
+          <td><span class="code-badge">HA1</span></td>
+          <td class="tmu-val">25.0</td>
+          <td>1</td>
+          <td class="tmu-val">25.0</td>
+          <td class="seg-val">0.90</td>
+        </tr>
+        <tr>
+          <td>6</td>
+          <td>Verificación visual — etiqueta fijada y legible</td>
+          <td><span class="code-badge">EH1</span></td>
+          <td class="tmu-val">20.0</td>
+          <td>1</td>
+          <td class="tmu-val">20.0</td>
+          <td class="seg-val">0.72</td>
+        </tr>
+        <tr>
+          <td>7</td>
+          <td>Apartar / liberar paquete — continuidad del flujo</td>
+          <td><span class="code-badge">PB1</span></td>
+          <td class="tmu-val">20.0</td>
+          <td>1</td>
+          <td class="tmu-val">20.0</td>
+          <td class="seg-val">0.72</td>
+        </tr>
+        <tr class="total-row">
+          <td colspan="3"><strong>TOTAL DEL CICLO</strong></td>
+          <td>—</td>
+          <td>—</td>
+          <td><strong>262.3 TMU</strong></td>
+          <td><strong>9.44 seg</strong></td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="card">
+    <div class="card-title">Cálculo de Productividad</div>
+
+    <div class="razon">
+      <div class="razon-title">💡 Cómo pasamos de TMU a paquetes por hora</div>
+      Una vez que sumamos todos los TMU del ciclo (262.3 TMU), el cálculo es directo:
+      <br><br>
+      <strong>Paso 1 — Convertir a tiempo real:</strong> 262.3 TMU × 0.036 = 9.44 segundos por paquete. Ese sería el tiempo si todo saliera perfecto y sin interrupciones.
+      <br><br>
+      <strong>Paso 2 — Aplicar tolerancias (15%):</strong> En la práctica, nadie trabaja 100% del tiempo sin parar. Hay que ir al baño, hay fatiga, hay pequeñas demoras inevitables. MTM estándar usa 15% de tolerancia adicional (5% personal + 4% fatiga + 6% demoras). Entonces 9.44 × 1.15 = 10.86 segundos reales por paquete.
+      <br><br>
+      <strong>Paso 3 — Calcular paquetes por hora:</strong> Si cada paquete tarda 10.86 segundos, en una hora (3600 segundos) se procesan 3600 ÷ 10.86 = <strong>332 paquetes</strong>. Esa es la productividad estándar del proceso de Etiquetado, determinada por MTM. También se puede calcular directo en TMU: 100.000 ÷ (262.3 × 1.15) = 332 pqt/h.
+    </div>
+
+    <div class="formula-box">
+      Productividad = 100.000 TMU/h ÷ (TMU ciclo × Factor tolerancia)
+      <br>
+      <span>= 100.000 ÷ (262,3 × 1,15) = 100.000 ÷ 301,6 = <strong>≈ 332 pqt/h</strong></span>
+    </div>
+
+    <div class="hero-number-wrap">
+      <div class="hero-label">Productividad estándar — Etiquetado SVC</div>
+      <div class="hero-number">332</div>
+      <div class="hero-unit">paquetes / hora · por operario</div>
+      <div class="hero-sub">Calculado con MTM-UAS · Tolerancia 15% aplicada · Operario entrenado a ritmo normal</div>
+    </div>
+    <div class="stat-strip">
+      <div class="stat-box">
+        <div class="stat-label">TMU Total ciclo</div>
+        <div class="stat-value">262.3</div>
+        <div class="stat-unit">TMU / paquete</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Tiempo ciclo real</div>
+        <div class="stat-value">10.86</div>
+        <div class="stat-unit">segundos / paquete</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-label">Tolerancia MTM</div>
+        <div class="stat-value">15%</div>
+        <div class="stat-unit">fatiga + personal + demoras</div>
+      </div>
+      <div class="stat-box accent">
+        <div class="stat-label">Resultado</div>
+        <div class="stat-value">332</div>
+        <div class="stat-unit">pqt/h estándar</div>
+      </div>
+    </div>
+
+    <div style="background:#f0f3ff; border:1px solid #d0d8f0; border-radius:8px; padding:14px; margin-top:16px;">
+      <p style="font-size:12px; color:#a0a8d0; margin-bottom:8px;"><strong style="color:#ffe600;">Comparación con otros procesos del flujo SVC:</strong></p>
+      <table style="font-size:12px;">
+        <thead><tr><th>Proceso</th><th>Prod. (pqt/h)</th><th>Tiempo ciclo (seg)</th></tr></thead>
+        <tbody>
+          <tr><td>Inbound</td><td>1.128</td><td>3.19</td></tr>
+          <tr><td>Inducción</td><td>1.684</td><td>2.14</td></tr>
+          <tr style="background:#fffbea;"><td><strong style="color:#2d3277;">Etiquetado (MTM)</strong></td><td style="color:#3483fa; font-weight:700;">332</td><td style="color:#3483fa; font-weight:700;">10.86</td></tr>
+          <tr><td>Pesca</td><td>1.129</td><td>3.19</td></tr>
+          <tr><td>Sorting</td><td>330</td><td>10.91</td></tr>
+        </tbody>
+      </table>
+      <p class="note" style="margin-top:8px;">Etiquetado y Sorting son los procesos más lentos del flujo — ambos requieren manipulación manual precisa y verificación visual por unidad.</p>
+    </div>
+
+    <p class="note" style="margin-top:16px;">
+      * Tolerancia 15% estándar MTM: 5% personal + 4% fatiga + 6% demoras inevitables.<br>
+      * Paso 3 (Impresión) no computa TMU de operario — es tiempo de máquina.<br>
+      * Productividad calculada asumiendo operario entrenado a ritmo normal (100%).
+    </p>
+  </div>
+
+</div>
+
+<!-- ═══════════════════════════════════════════
+     PESTAÑA 3 — CALCULADORA HC
+══════════════════════════════════════════════ -->
+<div class="section" id="tab-calc">
+
+  <div class="slide-header">
+    <div class="slide-number">SLIDE 03</div>
+    <div>
+      <h2>Calculadora de Headcount · Operación SVC</h2>
+      <p>Dimensionamiento por proceso · Ingrese volumen y horas disponibles</p>
+    </div>
+  </div>
+
+  <div class="razon">
+    <div class="razon-title">💡 Para qué sirve esta calculadora y cómo funciona</div>
+    Ya tenemos las productividades de todos los procesos del flujo (4 de la operación + 1 calculada por MTM). Ahora la pregunta es: <strong>dado un volumen de paquetes, ¿cuántas personas necesito en cada puesto?</strong>
+    <br><br>
+    La lógica es simple: si una persona procesa 332 paquetes por hora, y tengo 4 horas disponibles y necesito procesar 10.000 paquetes... necesito tener suficientes personas trabajando en paralelo para cubrir esa demanda. La fórmula es:
+    <br><br>
+    <strong>HC = TECHO ( Volumen ÷ (Productividad × Horas × Eficiencia) )</strong>
+    <br><br>
+    Usamos TECHO (redondear hacia arriba) porque no podemos tener media persona. Si el cálculo da 6.2, necesitamos 7. La <em>eficiencia operativa</em> descuenta el tiempo en que la operación no funciona al 100% (reuniones de turno, demoras de sistema, etc.). Con 85% de eficiencia, una persona que trabaja 4 horas produce efectivamente como si trabajara 3.4 horas. Eso eleva el headcount necesario.
+  </div>
+
+  <div style="display:grid; grid-template-columns: 320px 1fr; gap:24px; align-items:start;">
+
+    <!-- PANEL IZQUIERDO: INPUTS -->
+    <div class="calc-panel">
+      <div class="calc-panel-title">Parámetros de simulación</div>
+      <div class="input-group">
+        <label>Volumen diario (paquetes)</label>
+        <input type="number" id="volumen" value="10000" min="1" step="100">
+      </div>
+      <div class="input-group">
+        <label>Horas de clasificación</label>
+        <input type="number" id="horas" value="4" min="1" max="24" step="0.5">
+      </div>
+      <div class="input-group">
+        <label>Eficiencia operativa (%)</label>
+        <input type="number" id="eficiencia" value="85" min="1" max="100" step="1">
+      </div>
+      <button class="btn-calc" onclick="calcular()">→ Calcular Headcount</button>
+
+      <div style="margin-top:24px;">
+        <div class="calc-panel-title" style="margin-bottom:12px;">Productividades SVC</div>
+        <table style="font-size:12px;">
+          <thead><tr><th>Proceso</th><th>pqt/h</th><th>Fuente</th></tr></thead>
+          <tbody>
+            <tr><td>Inbound</td><td class="tmu-val">1.128</td><td style="color:#a0a8c0;">Operación</td></tr>
+            <tr><td>Inducción</td><td class="tmu-val">1.684</td><td style="color:#a0a8c0;">Operación</td></tr>
+            <tr style="background:#fffde8;"><td><strong>Etiquetado</strong></td><td class="tmu-val">332</td><td style="color:#f0a000; font-weight:700;">MTM-UAS</td></tr>
+            <tr><td>Pesca</td><td class="tmu-val">1.129</td><td style="color:#a0a8c0;">Operación</td></tr>
+            <tr><td>Sorting</td><td class="tmu-val">330</td><td style="color:#a0a8c0;">Operación</td></tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+
+    <!-- PANEL DERECHO: RESULTADO -->
+    <div class="result-panel">
+      <div class="hc-hero">
+        <div class="hc-hero-label">HC Total Requerido · Flujo SVC completo</div>
+        <div class="hc-hero-number" id="res-total">—</div>
+        <div class="hc-hero-sub" id="res-sub">Ingrese los parámetros y calcule</div>
+      </div>
+
+      <div class="formula-box" style="font-size:12px; margin-bottom:16px;">
+        HC = TECHO [ Volumen ÷ (Productividad × Horas × Eficiencia) ]
+      </div>
+
+      <div class="hc-table-wrap">
+        <div class="hc-row hc-head">
+          <div class="hc-cell">Proceso</div>
+          <div class="hc-cell">Prod. (pqt/h)</div>
+          <div class="hc-cell">Cap. real / persona</div>
+          <div class="hc-cell">HC exacto</div>
+          <div class="hc-cell" style="text-align:center;">HC</div>
+        </div>
+        <div id="hc-rows"></div>
+        <div class="hc-row total-hc" id="hc-total-row" style="display:none;">
+          <div class="hc-cell">TOTAL</div>
+          <div class="hc-cell">—</div>
+          <div class="hc-cell">—</div>
+          <div class="hc-cell">—</div>
+          <div class="hc-cell" style="text-align:center;" id="hc-total-badge">—</div>
+        </div>
+      </div>
+
+      <p class="note" style="margin-top:12px;" id="nota-resultado"></p>
+
+      <div id="conclusion-razon" class="razon" style="margin-top:20px; display:none;">
+        <div class="razon-title">💡 Qué nos dice este resultado</div>
+        <div id="conclusion-texto"></div>
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<div class="footer">Work Sample — Analista MTM · Operational Excellence CORP · Transportes · Sistema MTM-UAS</div>
+
+<script>
+function showTab(id) {
+  document.querySelectorAll('.tab').forEach(t => t.classList.remove('active'));
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  const tabs = ['proceso','mtm','calc'];
+  tabs.forEach((t, i) => { if (t === id) document.querySelectorAll('.tab')[i].classList.add('active'); });
+  document.getElementById('tab-' + id).classList.add('active');
+}
+
+const procesos = [
+  { nombre: 'Inbound',    prod: 1128, esETQ: false },
+  { nombre: 'Inducción',  prod: 1684, esETQ: false },
+  { nombre: 'Etiquetado', prod: 332,  esETQ: true  },
+  { nombre: 'Pesca',      prod: 1129, esETQ: false },
+  { nombre: 'Sorting',    prod: 330,  esETQ: false },
+];
+
+function calcular() {
+  const vol     = parseFloat(document.getElementById('volumen').value) || 0;
+  const horas   = parseFloat(document.getElementById('horas').value)   || 0;
+  const efic    = parseFloat(document.getElementById('eficiencia').value) / 100 || 0.85;
+
+  const container = document.getElementById('hc-rows');
+  container.innerHTML = '';
+
+  let totalHC = 0;
+  let bottleneck = { nombre: '', hc: 0 };
+  const resultados = [];
+
+  procesos.forEach(p => {
+    const capReal   = p.prod * efic;
+    const hcExacto  = vol / (capReal * horas);
+    const hcCeiling = Math.ceil(hcExacto);
+    totalHC += hcCeiling;
+
+    resultados.push({ nombre: p.nombre, hcCeiling, hcExacto, capReal, esETQ: p.esETQ });
+
+    if (hcCeiling > bottleneck.hc) {
+      bottleneck = { nombre: p.nombre, hc: hcCeiling };
+    }
+
+    const rowClass = p.esETQ ? 'hc-row etiquetado-hc' : 'hc-row';
+    const badgeClass = p.esETQ ? 'badge-hc yellow' : 'badge-hc';
+
+    container.innerHTML += `
+      <div class="${rowClass}">
+        <div class="hc-cell">${p.esETQ ? '⭐ ' : ''}${p.nombre}${p.esETQ ? ' (MTM)' : ''}</div>
+        <div class="hc-cell">${p.prod.toLocaleString('es-AR')}</div>
+        <div class="hc-cell">${Math.round(capReal).toLocaleString('es-AR')}</div>
+        <div class="hc-cell">${hcExacto.toFixed(2)}</div>
+        <div class="hc-cell" style="text-align:center;"><div class="${badgeClass}">${hcCeiling}</div></div>
+      </div>`;
+  });
+
+  document.getElementById('res-total').textContent      = totalHC;
+  document.getElementById('res-sub').textContent        = `${vol.toLocaleString('es-AR')} pqt/día · ${horas}h · ${(efic*100).toFixed(0)}% eficiencia · Cuello de botella: ${bottleneck.nombre}`;
+  document.getElementById('hc-total-row').style.display = '';
+  document.getElementById('hc-total-badge').innerHTML   = `<div class="badge-hc yellow" style="margin:0 auto;">${totalHC}</div>`;
+
+  const eficPct = (efic * 100).toFixed(0);
+  document.getElementById('nota-resultado').textContent =
+    `Simulación: ${vol.toLocaleString('es-AR')} pqt/día · ${horas}h disponibles · eficiencia ${eficPct}%. ` +
+    `HC redondeado al entero superior (TECHO). El proceso cuello de botella es "${bottleneck.nombre}" con ${bottleneck.hc} personas requeridas.`;
+
+  // ── CONCLUSIÓN DINÁMICA ──
+  generarConclusion({ vol, horas, efic, eficPct, totalHC, bottleneck, resultados });
+}
+
+function generarConclusion({ vol, horas, efic, eficPct, totalHC, bottleneck, resultados }) {
+  const etqData   = resultados.find(r => r.nombre === 'Etiquetado');
+  const sortData  = resultados.find(r => r.nombre === 'Sorting');
+  const etqHC     = etqData.hcCeiling;
+  const sortHC    = sortData.hcCeiling;
+  const volFmt    = vol.toLocaleString('es-AR');
+  const esBtl     = bottleneck.nombre;
+  const esTiempo  = horas === 1 ? '1 hora' : `${horas} horas`;
+
+  // ¿Cuánto representa el cuello de botella del total?
+  const pctBottleneck = Math.round((bottleneck.hc / totalHC) * 100);
+
+  // ¿Etiquetado es el cuello de botella (solo o empatado)?
+  const etqEsBottleneck = etqHC === bottleneck.hc;
+
+  // ¿Etiquetado y Sorting están empatados en HC?
+  const empatadosSyE = etqHC === sortHC;
+
+  // Comentario sobre volumen
+  let comentarioVol = '';
+  if (vol <= 5000)        comentarioVol = 'Es un volumen relativamente bajo';
+  else if (vol <= 15000)  comentarioVol = 'Es un volumen moderado, típico de una operación estándar';
+  else if (vol <= 30000)  comentarioVol = 'Es un volumen alto que requiere una operación bien organizada';
+  else                    comentarioVol = 'Es un volumen muy alto — la planificación del equipo es crítica';
+
+  // Comentario sobre eficiencia
+  let comentarioEfic = '';
+  if (efic >= 0.95)      comentarioEfic = `Con una eficiencia del ${eficPct}%, prácticamente no hay desperdicio de tiempo — el equipo trabaja casi al máximo todo el tiempo.`;
+  else if (efic >= 0.85) comentarioEfic = `Con una eficiencia del ${eficPct}%, hay un margen realista de paradas menores (cambios de turno, demoras de sistema, pausas). Esto sube un poco el HC necesario respecto al ideal.`;
+  else if (efic >= 0.70) comentarioEfic = `Con una eficiencia del ${eficPct}%, hay bastante tiempo perdido durante la jornada. Vale la pena revisar qué está causando esas demoras, porque con más eficiencia se puede bajar el headcount.`;
+  else                   comentarioEfic = `Con una eficiencia del ${eficPct}%, más de 1 de cada 4 horas se pierden. Ese nivel impacta fuerte en el HC — mejorar la eficiencia podría ahorrar varias personas.`;
+
+  // Comentario sobre cuello de botella
+  let comentarioBtl = '';
+  if (esBtl === 'Sorting') {
+    comentarioBtl = `El proceso que más personas necesita es <strong>Sorting</strong> — con <strong>${bottleneck.hc} personas</strong>, que representan el ${pctBottleneck}% del equipo total. Esto tiene sentido: Sorting es un proceso 100% manual donde cada paquete se clasifica a mano por destino, sin ayuda de automatización.`;
+  } else if (esBtl === 'Etiquetado') {
+    comentarioBtl = `El proceso que más personas necesita es <strong>Etiquetado</strong> — con <strong>${bottleneck.hc} personas</strong> (${pctBottleneck}% del equipo). Este fue el proceso que calculamos con MTM, y es el de mayor carga del flujo en este escenario. Si se quiere reducir el headcount total, Etiquetado es el primer lugar donde buscar mejoras (automatizar la impresión, optimizar el layout del puesto, reducir el tiempo de despegue de etiqueta, etc.).`;
+  } else if (esBtl === 'Inbound') {
+    comentarioBtl = `El cuello de botella es <strong>Inbound</strong> con <strong>${bottleneck.hc} personas</strong>. Esto puede ocurrir cuando el volumen es muy alto pero las horas disponibles son pocas — el ingreso de paquetes se convierte en el limitante del flujo.`;
+  } else {
+    comentarioBtl = `El proceso con mayor demanda de personas es <strong>${esBtl}</strong> con <strong>${bottleneck.hc} personas</strong> (${pctBottleneck}% del equipo total).`;
+  }
+
+  // Comentario específico sobre Etiquetado (MTM)
+  let comentarioEtq = '';
+  if (etqEsBottleneck && esBtl === 'Etiquetado') {
+    comentarioEtq = `Vale recordar que la productividad de Etiquetado (<strong>332 pqt/h</strong>) fue determinada por nosotros usando MTM — no era un dato de la operación. Eso significa que si el proceso real es más rápido o más lento, el HC de Etiquetado va a cambiar. Se recomienda validar esta productividad con una medición en campo.`;
+  } else if (empatadosSyE) {
+    comentarioEtq = `Etiquetado y Sorting tienen exactamente el mismo HC requerido (<strong>${etqHC} personas cada uno</strong>). Tiene lógica: sus productividades son casi idénticas (332 vs 330 pqt/h). Ambos son procesos con manipulación manual precisa por unidad, sin automatización. Son los dos eslabones más lentos del flujo.`;
+  } else if (etqHC > 1) {
+    comentarioEtq = `Etiquetado requiere <strong>${etqHC} personas</strong>. Como su productividad (332 pqt/h) fue calculada por MTM y no medida en campo, vale tenerlo en cuenta como dato estimado que puede ajustarse con una validación real.`;
+  } else {
+    comentarioEtq = `Con este volumen y estas horas, Etiquetado solo necesita <strong>${etqHC} persona</strong>. El dato de productividad (332 pqt/h) viene del cálculo MTM realizado en este trabajo.`;
+  }
+
+  // Armar el texto completo
+  const texto = `
+    Para procesar <strong>${volFmt} paquetes</strong> en <strong>${esTiempo}</strong> de clasificación, el flujo SVC completo necesita <strong>${totalHC} personas en total</strong>. ${comentarioVol}.
+    <br><br>
+    ${comentarioEfic}
+    <br><br>
+    ${comentarioBtl}
+    <br><br>
+    ${comentarioEtq}
+    <br><br>
+    <em>Los procesos de Inbound, Inducción y Pesca tienen productividades altas (entre 1.128 y 1.684 pqt/h), por lo que requieren pocas personas en comparación. El grueso del equipo se concentra en Etiquetado y Sorting — que son los procesos más lentos y los que más influyen en el dimensionamiento total del turno.</em>
+  `;
+
+  document.getElementById('conclusion-texto').innerHTML = texto;
+  document.getElementById('conclusion-razon').style.display = 'block';
+}
+
+// Ejecutar al cargar con valores por defecto
+window.onload = () => calcular();
+</script>
+</body>
+</html>
