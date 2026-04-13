@@ -1,0 +1,1864 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>SVC Meli — Entregable Final</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+:root {
+  --bg:       #0c1220;
+  --card:     #121e32;
+  --border:   #1c2d48;
+  --txt:      #e2e8f0;
+  --txt2:     #7a8ba4;
+  --yellow:   #ffe600;
+  --blue:     #2d3277;
+  --blue2:    #3483fa;
+  --green:    #00a650;
+  --shadow:   0 2px 20px rgba(0,0,0,.45);
+  --radius:   10px;
+}
+
+body {
+  background: var(--bg);
+  color: var(--txt);
+  font-family: 'Segoe UI', Arial, sans-serif;
+  min-height: 100vh;
+  font-size: 14px;
+}
+
+/* ── NAV ── */
+nav {
+  position: sticky; top: 0; z-index: 100;
+  background: var(--blue);
+  display: flex; align-items: center;
+  padding: 0 36px; height: 56px; gap: 4px;
+  box-shadow: 0 2px 12px rgba(45,50,119,.25);
+}
+.nav-logo {
+  color: var(--yellow); font-size: 15px; font-weight: 700;
+  margin-right: 24px; white-space: nowrap; letter-spacing: -.2px;
+}
+.nav-logo span { color: #8888bb; font-weight: 400; }
+.nav-btn {
+  padding: 8px 18px; border-radius: 6px;
+  border: none; background: transparent;
+  color: #9999cc; font-size: 13px; cursor: pointer;
+  font-family: inherit; transition: all .18s; letter-spacing: .1px;
+}
+.nav-btn:hover  { color: #fff; background: rgba(255,255,255,.08); }
+.nav-btn.active { color: var(--blue); background: var(--yellow); font-weight: 700; }
+
+/* ── SECCIONES ── */
+.section { display: none; padding: 32px 40px 48px; }
+.section.active { display: block; }
+
+/* ── PAGE HEADER ── */
+.page-hdr {
+  display: flex; justify-content: space-between; align-items: flex-start;
+  margin-bottom: 28px; padding-bottom: 20px;
+  border-bottom: 2px solid var(--yellow);
+}
+.page-hdr h2 { color: var(--blue); font-size: 23px; font-weight: 700; }
+.page-hdr p  { color: var(--txt2); font-size: 12.5px; margin-top: 5px; }
+.badges { display: flex; gap: 8px; flex-shrink: 0; margin-left: 20px; }
+.badge {
+  padding: 5px 13px; border-radius: 5px;
+  font-size: 11px; font-weight: 700; letter-spacing: .5px;
+}
+.by { background: var(--yellow); color: var(--blue); }
+.bb { background: var(--blue2); color: #fff; }
+.bg { background: #0a2415; color: var(--green); border: 1px solid #154d2a; }
+
+/* ── STATS BAR ── */
+.stats {
+  display: flex; margin-bottom: 28px;
+  border-radius: var(--radius); overflow: hidden;
+  border: 1px solid var(--border);
+  box-shadow: var(--shadow);
+}
+.stat {
+  flex: 1; padding: 16px 20px; background: var(--card);
+  border-right: 1px solid var(--border);
+}
+.stat:last-child { border-right: none; }
+.stat-v {
+  color: var(--blue); font-size: 24px; font-weight: 700;
+  line-height: 1; letter-spacing: -.5px;
+}
+.stat-l { color: var(--txt2); font-size: 10.5px; margin-top: 5px; text-transform: uppercase; letter-spacing: .4px; }
+
+/* ── TABLAS ── */
+.tbl-wrap { overflow-x: auto; margin-bottom: 24px; border-radius: var(--radius); box-shadow: var(--shadow); }
+table { width: 100%; border-collapse: collapse; font-size: 13px; background: var(--card); }
+thead tr { background: var(--blue); }
+thead th { padding: 11px 16px; text-align: left; color: var(--yellow);
+           font-weight: 600; font-size: 11px; text-transform: uppercase; letter-spacing: .5px; }
+tbody tr { border-bottom: 1px solid var(--border); }
+tbody tr:hover { background: #0f1a2c; }
+tbody td { padding: 10px 16px; color: var(--txt); }
+.val { color: var(--yellow); font-weight: 700; }
+.sub { color: var(--txt2); font-size: 11px; }
+tr.hl { background: #162038 !important; }
+tr.hl td { color: var(--yellow); }
+
+/* ── CARDS ── */
+.cards { display: flex; gap: 16px; flex-wrap: wrap; margin-bottom: 24px; }
+.card {
+  flex: 1; min-width: 240px;
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); padding: 20px 22px;
+  box-shadow: var(--shadow);
+}
+.card h3 {
+  color: var(--blue); font-size: 11px; text-transform: uppercase;
+  letter-spacing: .8px; margin-bottom: 13px;
+  padding-bottom: 9px; border-bottom: 2px solid var(--yellow);
+}
+.card p { color: var(--txt2); font-size: 13px; line-height: 1.75; }
+.card p b { color: var(--txt); }
+.card.hl { border-left: 4px solid var(--yellow); }
+
+/* ── CAPEX TOTAL ── */
+.capex-total {
+  background: var(--blue); border-radius: var(--radius);
+  padding: 24px 32px; display: flex;
+  justify-content: space-between; align-items: center;
+  box-shadow: var(--shadow); margin-top: 4px;
+}
+.capex-total-val { color: var(--yellow); font-size: 40px; font-weight: 700; letter-spacing: -1px; }
+.capex-total-lbl { color: #8888cc; font-size: 13px; margin-top: 4px; }
+.capex-saving .s-val { color: #7dffb3; font-size: 24px; font-weight: 700; }
+.capex-saving .s-lbl { color: #8888cc; font-size: 11px; margin-top: 4px; text-align: right; }
+
+/* ── SUGERENCIAS ── */
+.suggestions { display: flex; flex-direction: column; gap: 10px; margin-top: 8px; }
+.sug {
+  background: #0d1828; border-left: 3px solid var(--blue2);
+  border-radius: 0 var(--radius) var(--radius) 0;
+  padding: 14px 18px; box-shadow: var(--shadow);
+}
+.sug h4 { color: var(--blue2); font-size: 11.5px; margin-bottom: 5px; text-transform: uppercase; letter-spacing: .4px; }
+.sug p  { color: var(--txt2); font-size: 13px; line-height: 1.65; }
+.sug.green { border-left-color: var(--green); }
+.sug.green h4 { color: var(--green); }
+
+/* ── CHIPS LEYENDA ── */
+.chip {
+  display: inline-flex; align-items: center; gap: 7px;
+  background: #0d1828; border: 1px solid var(--border);
+  border-radius: 20px; padding: 5px 13px;
+  font-size: 11.5px; color: var(--txt2); margin: 4px;
+  box-shadow: 0 1px 6px rgba(0,0,0,.3);
+}
+.cd { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+.legend-wrap { display: flex; flex-wrap: wrap; margin-top: 16px; }
+
+/* ── GLOSARIO GRID ── */
+.glosario-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(340px,1fr));
+  gap: 20px;
+}
+.glosario-card {
+  background: var(--card); border: 1px solid var(--border);
+  border-radius: var(--radius); overflow: hidden;
+  box-shadow: var(--shadow);
+}
+.glosario-card .gc-head {
+  background: var(--blue); padding: 12px 18px;
+  display: flex; align-items: center; gap: 10px;
+}
+.gc-head-dot { width: 10px; height: 10px; border-radius: 50%; background: var(--yellow); }
+.gc-head h3 { color: var(--yellow); font-size: 12px; font-weight: 700; text-transform: uppercase; letter-spacing: .6px; }
+.glosario-card .gc-body { padding: 14px 18px; }
+.gc-body p { color: var(--txt2); font-size: 12.5px; line-height: 1.7; }
+.gc-body p b { color: var(--txt); }
+.gc-body svg { border-radius: 6px; }
+
+/* ── SECTION TITLE ── */
+.sec-title {
+  color: var(--blue2); font-size: 12px; font-weight: 700;
+  text-transform: uppercase; letter-spacing: .8px;
+  margin: 28px 0 14px; padding-left: 10px;
+  border-left: 3px solid var(--yellow);
+}
+
+/* ── PORTADA ── */
+#portada {
+  position: fixed; inset: 0; z-index: 200;
+  background: #080e1a;
+  display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 40px 24px;
+}
+#portada.hidden { display: none; }
+.portada-tag {
+  background: var(--yellow); color: var(--blue);
+  font-size: 11px; font-weight: 800; letter-spacing: 1.2px;
+  text-transform: uppercase; padding: 5px 16px;
+  border-radius: 4px; margin-bottom: 28px;
+}
+.portada-title {
+  color: #fff; font-size: clamp(26px, 4vw, 42px);
+  font-weight: 800; text-align: center;
+  line-height: 1.15; max-width: 640px;
+  margin-bottom: 10px; letter-spacing: -.5px;
+}
+.portada-title span { color: var(--yellow); }
+.portada-sub {
+  color: #4a6b90; font-size: 14px; text-align: center;
+  margin-bottom: 48px; max-width: 480px; line-height: 1.6;
+}
+.portada-kpis {
+  display: flex; gap: 20px; flex-wrap: wrap;
+  justify-content: center; margin-bottom: 52px;
+}
+.pkpi {
+  background: #0d1828; border: 1px solid #1c2d48;
+  border-radius: 10px; padding: 18px 28px;
+  text-align: center; min-width: 120px;
+}
+.pkpi-v {
+  color: var(--yellow); font-size: 30px; font-weight: 800;
+  line-height: 1; letter-spacing: -1px;
+}
+.pkpi-l {
+  color: #4a6b90; font-size: 10.5px; margin-top: 6px;
+  text-transform: uppercase; letter-spacing: .4px;
+}
+.portada-btn {
+  background: var(--yellow); color: var(--blue);
+  border: none; border-radius: 8px;
+  padding: 16px 48px; font-size: 15px;
+  font-weight: 800; cursor: pointer;
+  font-family: inherit; letter-spacing: .2px;
+  transition: opacity .15s, transform .15s;
+  box-shadow: 0 4px 24px rgba(255,230,0,.25);
+}
+.portada-btn:hover { opacity: .9; transform: translateY(-1px); }
+.portada-footer {
+  position: absolute; bottom: 20px;
+  color: #1c2d48; font-size: 11px; letter-spacing: .3px;
+}
+
+/* ── NARRATIVE STEPS ── */
+.narrative { display: flex; flex-direction: column; gap: 0; margin-bottom: 36px; }
+.nstep {
+  display: flex; gap: 0; align-items: stretch;
+}
+.nstep-left {
+  display: flex; flex-direction: column; align-items: center;
+  width: 56px; flex-shrink: 0;
+}
+.nstep-num {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: var(--yellow); color: var(--blue);
+  font-size: 18px; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  flex-shrink: 0; z-index: 1; box-shadow: 0 0 0 4px #0c1220;
+}
+.nstep-line {
+  width: 2px; flex: 1; background: #1c2d48;
+  margin: 4px 0;
+}
+.nstep:last-child .nstep-line { display: none; }
+.nstep-body {
+  flex: 1; background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: var(--radius);
+  padding: 18px 22px; margin-bottom: 12px;
+  box-shadow: var(--shadow);
+}
+.nstep-body h3 {
+  color: var(--yellow); font-size: 13px; font-weight: 700;
+  margin-bottom: 8px; letter-spacing: .2px;
+}
+.nstep-body p {
+  color: var(--txt2); font-size: 13px; line-height: 1.75;
+}
+.nstep-body p b { color: var(--txt); }
+.nstep-body p strong { color: var(--yellow); font-weight: 700; }
+.nstep-body .n-kpi {
+  display: inline-flex; align-items: baseline; gap: 6px;
+  background: #0d1828; border: 1px solid var(--border);
+  border-radius: 6px; padding: 6px 14px; margin: 10px 8px 0 0;
+}
+.n-kpi .kv { color: var(--yellow); font-size: 20px; font-weight: 800; line-height: 1; }
+.n-kpi .kl { color: var(--txt2); font-size: 10px; }
+.nstep-body.accent { border-left: 3px solid var(--yellow); }
+.nstep-body.green  { border-left: 3px solid var(--green); }
+.nstep-body.blue   { border-left: 3px solid var(--blue2); }
+
+/* ── PROCESS BAR ── */
+.process-bar {
+  display: flex; align-items: stretch;
+  background: #060d1a; border: 1px solid #1a2d45;
+  border-radius: 10px 10px 0 0; overflow: hidden;
+  margin-bottom: 0;
+}
+.pz {
+  flex: 1; display: flex; flex-direction: column;
+  align-items: center; justify-content: center;
+  padding: 12px 6px; gap: 4px;
+  border-right: 1px solid #0d1828; position: relative;
+}
+.pz:last-child { border-right: none; }
+.pz-num {
+  width: 28px; height: 28px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 13px; font-weight: 800; flex-shrink: 0;
+}
+.pz-name {
+  font-size: 10px; font-weight: 700; text-transform: uppercase;
+  letter-spacing: .5px; text-align: center; line-height: 1.2;
+}
+.pz-sub {
+  font-size: 9px; color: #3a5070; text-align: center; line-height: 1.3;
+}
+.pz-dim {
+  font-size: 11px; font-weight: 700; margin-top: 2px;
+}
+/* separador entre zonas pequeñas */
+.pz.narrow { flex: 0.5; }
+
+/* ── NEXT BUTTON ── */
+.next-bar {
+  display: flex; justify-content: flex-end; align-items: center;
+  margin-top: 48px; padding-top: 24px;
+  border-top: 1px solid var(--border);
+  gap: 14px;
+}
+.next-bar .next-hint { color: var(--txt2); font-size: 12px; }
+.next-btn {
+  background: var(--yellow); color: var(--blue);
+  border: none; border-radius: 8px;
+  padding: 13px 32px; font-size: 14px; font-weight: 800;
+  cursor: pointer; font-family: inherit; letter-spacing: .1px;
+  transition: opacity .15s, transform .15s;
+  box-shadow: 0 2px 16px rgba(255,230,0,.2);
+}
+.next-btn:hover { opacity: .9; transform: translateX(2px); }
+
+/* ── DETAIL DIVIDER ── */
+.detail-divider {
+  display: flex; align-items: center; gap: 14px;
+  margin: 36px 0 24px; color: var(--txt2); font-size: 11px;
+  text-transform: uppercase; letter-spacing: .8px;
+}
+.detail-divider::before, .detail-divider::after {
+  content: ''; flex: 1; height: 1px; background: var(--border);
+}
+</style>
+</head>
+<body>
+
+<!-- ══ PORTADA ══ -->
+<div id="portada">
+  <div class="portada-tag">Mercado Libre · Expansión · Work Sample</div>
+  <div class="portada-title">Diseño de <span>Service Center</span><br>Last Mile — 6.000 m²</div>
+  <div class="portada-sub">Cómo equipamos una nave vacía para que 24.000 paquetes por día salgan en camión a tiempo — y a qué costo.</div>
+  <div class="portada-kpis">
+    <div class="pkpi"><div class="pkpi-v">6.000</div><div class="pkpi-l">m² de nave</div></div>
+    <div class="pkpi"><div class="pkpi-v">24K</div><div class="pkpi-l">paquetes / día</div></div>
+    <div class="pkpi"><div class="pkpi-v">617</div><div class="pkpi-l">bakers totales</div></div>
+    <div class="pkpi"><div class="pkpi-v">$523K</div><div class="pkpi-l">CAPEX optimizado</div></div>
+    <div class="pkpi"><div class="pkpi-v">43%</div><div class="pkpi-l">ahorro vs. base</div></div>
+  </div>
+  <button class="portada-btn" onclick="entrar()">Ver entregable →</button>
+  <div class="portada-footer">Gonzalo Florez · Analista de Expansión · Abril 2026</div>
+</div>
+
+<!-- NAV -->
+<nav>
+  <div class="nav-logo">SVC Meli <span>/ Entregable Final</span></div>
+  <button class="nav-btn active" onclick="show('calc',this)">① Cómo lo pensamos</button>
+  <button class="nav-btn"       onclick="show('capex',this)">② CAPEX</button>
+  <button class="nav-btn"       onclick="show('layout',this)">③ Layout Técnico</button>
+  <button class="nav-btn"       onclick="show('glosario',this)">④ Glosario Visual</button>
+</nav>
+
+
+<!-- ══════════════════════════════════════
+     ① CÓMO LO PENSAMOS
+══════════════════════════════════════ -->
+<div id="calc" class="section active">
+
+  <div class="page-hdr">
+    <div>
+      <h2>Cómo lo pensamos — Razonamiento paso a paso</h2>
+      <p>Service Center 6.000 m² · Last Mile · Criterio rector: más productividad, menos recursos</p>
+    </div>
+    <div class="badges">
+      <span class="badge by">EXPANSIÓN SVC</span>
+      <span class="badge bb">WORK SAMPLE</span>
+    </div>
+  </div>
+
+  <!-- ── PREMISAS ── -->
+  <div class="sec-title">Premisas adoptadas</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:12px;margin-bottom:32px">
+
+    <div class="sug">
+      <h4>El enunciado dice "único módulo" — lo interpreté como diseño-tipo</h4>
+      <p>El texto describe el flow central y la inducción como un "único módulo" refiriéndose al formato estándar, no a una restricción de cantidad. Instalar un solo módulo no alcanza para el volumen del turno AM. <b>Premisa:</b> se instalan 3 módulos de inducción sortable y 3 flow centrals — el mínimo operativo sin cuello de botella.</p>
+    </div>
+
+    <div class="sug">
+      <h4>1 Baker = 1 Ruta = 1 Camión — sin excepciones</h4>
+      <p>Cada jaula metálica representa exactamente una ruta de entrega. Cuando está llena, sube completa al camión — sin reclasificar, sin manipulación extra. Esta regla es la que hace que el sistema sea simple y rápido. Todo el dimensionamiento de bakers, calles y stage out parte de este principio.</p>
+    </div>
+
+    <div class="sug">
+      <h4>Diseñamos para el turno AM — el de mayor demanda</h4>
+      <p>El turno AM concentra el 57% del volumen diario (13.680 pct). Diseñar para el promedio dejaría al sistema sin capacidad justo cuando más la necesita. <b>Premisa:</b> todo el equipamiento, las calles y las plazas se dimensionan para que el turno AM no genere ningún cuello de botella.</p>
+    </div>
+
+    <div class="sug">
+      <h4>Los bakers se reutilizan entre turnos — se compra un solo set</h4>
+      <p>Entre el despacho del turno AM y el inicio del PM hay una ventana de tiempo suficiente para que las jaulas vuelvan vacías a la nave. <b>Premisa:</b> se compra un único set de 617 bakers dimensionado para el turno AM, y ese mismo set cubre el turno PM. Esta decisión explica el 43% de ahorro en el CAPEX.</p>
+    </div>
+
+    <div class="sug">
+      <h4>Herringbone en voluminoso — calles perpendiculares a ambos lados</h4>
+      <p>El enunciado no especifica la configuración del área voluminosa. En línea recta, 19 calles requerirían ~57m de espina — más de la mitad de la nave. <b>Premisa:</b> se adopta configuración herringbone (calles a ambos lados de la espina central), reduciendo la espina a 30m y liberando espacio para maniobra.</p>
+    </div>
+
+    <div class="sug">
+      <h4>Stage Out por rotación, no por plaza fija</h4>
+      <p>Asignar una plaza permanente a cada baker requeriría 617 posiciones — inviable en 6.000 m². <b>Premisa:</b> cada camión permanece 30 minutos en su plaza, carga sus bakers y libera el espacio. Con una ventana de despacho de 3 horas, cada plaza rota 6 veces. Resultado: 103 plazas alcanzan para todos los bakers del turno.</p>
+    </div>
+
+  </div>
+
+  <div class="narrative">
+
+    <!-- PASO 1 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">1</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body accent">
+        <h3>La nave y el desafío</h3>
+        <p>Nos dieron una nave vacía de <b>100m × 60m</b> (6.000 m²) y una sola pregunta: ¿cómo la equipamos para que <b>24.000 paquetes por día</b> salgan en camión a tiempo?<br><br>
+        La nave no tiene nada adentro. Hay que decidir qué va, dónde va, cuánto comprar y cuánto cuesta. Todo desde cero.</p>
+        <div class="n-kpi"><span class="kv">6.000</span><span class="kl">m² disponibles</span></div>
+        <div class="n-kpi"><span class="kv">24.000</span><span class="kl">paquetes / día</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 2 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">2</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body blue">
+        <h3>Elegimos el peor caso para diseñar</h3>
+        <p>El día tiene dos turnos: el de la mañana (AM) mueve el <b>57%</b> del volumen, el de la tarde (PM) el <b>43%</b>. Podríamos haber diseñado para el promedio, pero eso nos dejaría sin capacidad justo cuando más se necesita.<br><br>
+        <strong>Decisión:</strong> diseñamos todo para el turno AM — el más exigente. Si funciona en el pico, funciona siempre. Si le sobra capacidad en el PM, mejor.</p>
+        <div class="n-kpi"><span class="kv">13.680</span><span class="kl">pct turno AM (pico)</span></div>
+        <div class="n-kpi"><span class="kv">3 hs</span><span class="kl">ventana de sorting</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 3 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">3</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body">
+        <h3>Dos tipos de paquete, dos sistemas distintos</h3>
+        <p>No todos los paquetes se manejan igual. Los separamos en dos categorías desde el inicio:<br><br>
+        <b>Sortable (80%):</b> paquetes chicos — ropa, electrónica, remedios. Caben en una jaula estándar y se clasifican rápido en cinta motorizada.<br><br>
+        <b>Voluminoso (20%):</b> paquetes grandes — sillas, TVs, colchones. No entran en una cinta; necesitan espacio y otro sistema de clasificación.<br><br>
+        Esta separación define todo el resto: el layout, el equipamiento y los costos son completamente distintos para cada uno.</p>
+        <div class="n-kpi"><span class="kv">80%</span><span class="kl">sortable · 10.944 pct/turno</span></div>
+        <div class="n-kpi"><span class="kv">20%</span><span class="kl">voluminoso · 2.736 pct/turno</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 4 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">4</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body blue">
+        <h3>Los paquetes chicos: la cinta y las calles</h3>
+        <p>Para los sortables instalamos una <b>cinta motorizada de 33m</b>. Los paquetes entran por un módulo de inducción, viajan solos sobre la cinta y en cada boca de calle hay dos personas:<br><br>
+        — El <b>Pescador</b> (fijo): reconoce los paquetes de sus rutas y los carga en carritos buffer.<br>
+        — El <b>Sorteador</b> (se mueve por la calle): toma los carritos y mete cada paquete en la jaula (baker) que le corresponde.<br><br>
+        Calculamos que necesitamos <strong>11 calles</strong> para procesar los 13.680 paquetes en 3 horas sin cuello de botella.</p>
+        <div class="n-kpi"><span class="kv">11</span><span class="kl">calles sortable</span></div>
+        <div class="n-kpi"><span class="kv">33m</span><span class="kl">cinta motorizada</span></div>
+        <div class="n-kpi"><span class="kv">44</span><span class="kl">carritos buffer</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 5 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">5</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body">
+        <h3>Los paquetes grandes: la espina dorsal</h3>
+        <p>Para los voluminosos no hay cinta — los paquetes se <b>deslizan solos por gravedad</b> a través de rodillos (llamados fingers). La espina dorsal es la línea central de rodillos. Las calles de clasificación salen perpendiculares de la espina, a ambos lados, como una herradura.<br><br>
+        Esta configuración se llama <b>herringbone</b> (espina de pescado). La ventaja: en vez de necesitar 57m de espina en línea recta, con el herringbone alcanza con <strong>30m</strong>. La nave es más corta y el recorrido del operario es menor.</p>
+        <div class="n-kpi"><span class="kv">19</span><span class="kl">calles voluminoso</span></div>
+        <div class="n-kpi"><span class="kv">30m</span><span class="kl">espina herringbone</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 6 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">6</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body accent">
+        <h3>El baker: la unidad básica del sistema</h3>
+        <p>Cada <b>jaula metálica con ruedas</b> (baker) representa una ruta y un camión. La regla es simple: <strong>1 baker = 1 ruta = 1 destino</strong>. Cuando el baker está lleno, se sube directamente al camión — sin re-manipular los paquetes.<br><br>
+        Los bakers son el corazón del sistema. Todo lo que calculamos (calles, espacios, layout) gira alrededor de cuántos bakers necesitamos y dónde van. Calculamos exactamente <strong>617 bakers</strong> para cubrir el turno AM completo.</p>
+        <div class="n-kpi"><span class="kv">617</span><span class="kl">bakers totales</span></div>
+        <div class="n-kpi"><span class="kv">161</span><span class="kl">sortable</span></div>
+        <div class="n-kpi"><span class="kv">456</span><span class="kl">voluminoso</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 7 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">7</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body green">
+        <h3>El ahorro que lo cambia todo: reutilizar los bakers</h3>
+        <p>La pregunta clave del CAPEX era: ¿compramos jaulas para el turno AM <b>y</b> otras para el PM? Sin pensarlo, parecería que sí. Pero hay una ventana de tiempo entre turnos.<br><br>
+        <strong>Decisión:</strong> las mismas 617 jaulas se usan en el AM, y una vez que los camiones del AM despachan, las jaulas vuelven vacías y se reutilizan para el PM. Una sola compra cubre ambos turnos.<br><br>
+        Esto reduce el CAPEX en <strong>43%</strong> — $372.800 de ahorro por una decisión operativa, no por recortar calidad.</p>
+        <div class="n-kpi"><span class="kv">$372.800</span><span class="kl">ahorro por reutilización</span></div>
+        <div class="n-kpi"><span class="kv">43%</span><span class="kl">reducción de CAPEX</span></div>
+      </div>
+    </div>
+
+    <!-- PASO 8 -->
+    <div class="nstep">
+      <div class="nstep-left">
+        <div class="nstep-num">8</div>
+        <div class="nstep-line"></div>
+      </div>
+      <div class="nstep-body accent">
+        <h3>El resultado: así quedó organizada la nave</h3>
+        <p>Con todo definido, el espacio se distribuyó de <b>Oeste a Este</b> en 6 zonas que siguen el flujo natural del paquete — desde que entra hasta que sube al camión:<br><br>
+        <b>① Inbound</b> (23m) — los camiones descargan y los pallets esperan.<br>
+        <b>② Inducción</b> — los paquetes entran al sistema: 3 módulos sortable, 3 flow centrals voluminoso.<br>
+        <b>③ Sorting</b> — 11 calles sortable + cinta. Los paquetes se clasifican por ruta.<br>
+        <b>④ Voluminoso</b> (30m) — 19 calles en herringbone. Los grandes se clasifican por gravedad.<br>
+        <b>⑤ Maniobra</b> (16m) — zona de movimiento interno de bakers y transpaletas.<br>
+        <b>⑥ Stage Out</b> — 103 plazas de carga. Cada camión permanece 30 minutos; en 3 horas rota 6 veces. Todos los bakers despachan.</p>
+        <div class="n-kpi"><span class="kv">103</span><span class="kl">plazas stage out</span></div>
+        <div class="n-kpi"><span class="kv">×6</span><span class="kl">rotación de camiones</span></div>
+        <div class="n-kpi"><span class="kv">$523.200</span><span class="kl">CAPEX total</span></div>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="detail-divider">Detalle técnico de los cálculos</div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-v">24.000</div><div class="stat-l">Paquetes / día</div></div>
+    <div class="stat"><div class="stat-v">13.680</div><div class="stat-l">Ciclo AM (pico)</div></div>
+    <div class="stat"><div class="stat-v">3 h</div><div class="stat-l">Ventana sorting</div></div>
+    <div class="stat"><div class="stat-v">80% / 20%</div><div class="stat-l">Sort / Vol mix</div></div>
+    <div class="stat"><div class="stat-v">AM</div><div class="stat-l">Ciclo dimensionante</div></div>
+  </div>
+
+  <div class="sec-title">1.1 — Demanda por ciclo y tipo</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Ciclo</th><th>Total pct</th><th>Sortable (80%)</th><th>Voluminoso (20%)</th></tr></thead>
+      <tbody>
+        <tr class="hl"><td><b>AM — 57% ★ dimensionante</b></td><td class="val">13.680</td><td class="val">10.944</td><td class="val">2.736</td></tr>
+        <tr><td>PM — 43%</td><td>10.320</td><td>8.256</td><td>2.064</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">1.2 — Estaciones de Inducción</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Pct ciclo AM</th><th>Pct/h necesarios</th><th>Productividad</th><th>Cálculo</th><th>Módulos</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sortable</b></td><td>10.944</td><td>3.648 pct/h</td><td>1.400 pct/h/mód.</td><td>3.648 ÷ 1.400 = 2,6</td><td class="val">3 módulos</td></tr>
+        <tr><td><b>Voluminoso</b></td><td>2.736</td><td>912 pct/h</td><td>400 pct/h/mód.</td><td>912 ÷ 400 = 2,28</td><td class="val">3 flow centrals</td></tr>
+      </tbody>
+    </table>
+  </div>
+  <div class="sug" style="margin-bottom:24px">
+    <h4>Premisa adoptada</h4>
+    <p>El enunciado menciona "único módulo" como descripción del diseño-tipo, no como restricción de cantidad. Se proyectan 3 módulos por ser el mínimo operativo para no generar cuello de botella en ciclo AM.</p>
+  </div>
+
+  <div class="sec-title">1.3 — Calles de Sorting</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Pct/h necesarios</th><th>Productividad/calle</th><th>Cálculo</th><th>Calles</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sortable</b></td><td>3.648 pct/h</td><td>350 pct/h</td><td>3.648 ÷ 350 = 10,4</td><td class="val">11 calles</td></tr>
+        <tr><td><b>Voluminoso</b></td><td>912 pct/h</td><td>50 pct/h</td><td>912 ÷ 50 = 18,2</td><td class="val">19 calles</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">1.4 — Bakers (Jaulas)</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Tipo</th><th>Pct ciclo AM</th><th>Cap./baker</th><th>Cálculo</th><th>Bakers</th></tr></thead>
+      <tbody>
+        <tr><td><b>Sortable</b></td><td>10.944</td><td>68 pct</td><td>10.944 ÷ 68 = 160,9</td><td class="val">161</td></tr>
+        <tr><td><b>Voluminoso</b></td><td>2.736</td><td>6 pct</td><td>2.736 ÷ 6 = 456</td><td class="val">456</td></tr>
+        <tr class="hl"><td><b>TOTAL compra</b></td><td colspan="3" style="color:var(--green)">✓ Reutilización entre ciclos — compra = 1 set (ciclo AM pico)</td><td class="val">617</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">1.5 — Dimensiones de las Calles</div>
+  <div class="cards">
+    <div class="card hl">
+      <h3>Calle Sortable</h3>
+      <p>
+        <b>Pasillo operativo:</b> Carrito 0,5m + Seguridad sorteador 0,8m = <b>1,3m</b><br><br>
+        <b>Ancho total:</b> Baker izq (0,6m) + Pasillo (1,3m) + Baker der (0,6m) = <b class="val">2,5m</b><br><br>
+        <b>Largo:</b> 161 bakers ÷ 11 calles = 15 bakers/calle → 8 izq + 7 der → 8 × 1,0m = <b class="val">8m</b>
+      </p>
+    </div>
+    <div class="card hl">
+      <h3>Calle Voluminoso</h3>
+      <p>
+        <b>Ancho total:</b> Baker izq (0,6m) + Finger (0,8m) + Sorteador (1,0m) + Baker der (0,6m) = <b class="val">3,0m</b><br><br>
+        <b>Largo:</b> 456 bakers ÷ 19 calles = 24 bakers/calle → 12 por lado → 12 × 1,0m + finger 1,5m = <b class="val">13,5m</b>
+      </p>
+    </div>
+  </div>
+
+  <div class="sec-title">1.6 — Conveyor Motorizado</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Componente</th><th>Cálculo</th><th>Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>11 calles × ancho calle</td><td>11 × 2,5m</td><td>27,5m</td></tr>
+        <tr><td>Bloque inducción (3 mód + 2 espaciados)</td><td>3×1,0m + 2×0,8m</td><td>4,6m</td></tr>
+        <tr><td>Tolerancia instalación</td><td>Redondeo técnico</td><td>0,9m</td></tr>
+        <tr class="hl"><td><b>Largo total conveyor</b></td><td></td><td class="val">33m</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">1.7 — Stage Out (Plazas de Carga)</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Variable</th><th>Cálculo</th><th>Valor</th></tr></thead>
+      <tbody>
+        <tr><td>Total bakers ciclo AM</td><td>161 + 456</td><td class="val">617 bakers</td></tr>
+        <tr><td>Ventana despacho</td><td>—</td><td>180 min</td></tr>
+        <tr><td>Permanencia por vehículo</td><td>—</td><td>30 min</td></tr>
+        <tr><td>Giro por plaza</td><td>180 ÷ 30</td><td>6 rotaciones</td></tr>
+        <tr class="hl"><td><b>Plazas necesarias</b></td><td>617 ÷ 6 = 102,8</td><td class="val">103 plazas</td></tr>
+        <tr><td>Área Stage Out</td><td>103 × (5,5m × 3,0m)</td><td class="val">~1.700 m²</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">1.8 — Carritos de Supermercado</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Componente</th><th>Cálculo</th><th>Resultado</th></tr></thead>
+      <tbody>
+        <tr><td>Carritos por calle sortable</td><td>4 (2 buffer pescador + 2 sorteador)</td><td>4</td></tr>
+        <tr class="hl"><td><b>Total compra (reutilizados AM↔PM)</b></td><td>11 × 4</td><td class="val">44 carritos</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="sec-title">Sugerencias de Mejora</div>
+  <div class="suggestions">
+    <div class="sug"><h4>1. Gestión pico de inducción</h4><p>Capacidad instalada: 4.200 pct/h vs 3.648 pct/h requeridos (+15% de margen). Se recomienda operar con 2 módulos en ciclo PM y reservar el 3ro como backup.</p></div>
+    <div class="sug"><h4>2. Reducción calles voluminoso</h4><p>Las 19 calles resultan de la baja productividad de 50 pct/h. Elevar a 70 pct/h con mejor dinámica reduciría a 14 calles (-26%), liberando ~15m lineales de espina.</p></div>
+    <div class="sug"><h4>3. Reutilización total activos móviles</h4><p>Bakers y carritos reutilizados entre ciclos reducen la compra en 43% del CAPEX. Con 3+ ciclos la curva de ahorro es exponencial.</p></div>
+    <div class="sug green"><h4>4. Layout herringbone en voluminoso</h4><p>Configuración herringbone (espina central + calles perpendiculares en ambos lados) reduce los metros lineales de espina de ~57m a 30m.</p></div>
+  </div>
+
+  <div class="next-bar">
+    <span class="next-hint">¿Cuánto cuesta todo esto?</span>
+    <button class="next-btn" onclick="show('capex', document.querySelectorAll('.nav-btn')[1])">② Ver CAPEX →</button>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     ② CAPEX
+══════════════════════════════════════ -->
+<div id="capex" class="section">
+
+  <div class="page-hdr">
+    <div>
+      <h2>Estimación de Inversión — CAPEX</h2>
+      <p>Cantidades optimizadas por reutilización de activos entre ciclos AM y PM</p>
+    </div>
+    <div class="badges">
+      <span class="badge by">OPTIMIZADO</span>
+      <span class="badge bg">AHORRO 43%</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-v">$523.200</div><div class="stat-l">CAPEX total</div></div>
+    <div class="stat"><div class="stat-v">$372.800</div><div class="stat-l">Ahorro por reutilización</div></div>
+    <div class="stat"><div class="stat-v">94%</div><div class="stat-l">CAPEX en bakers</div></div>
+    <div class="stat"><div class="stat-v">617</div><div class="stat-l">Bakers (1 set AM)</div></div>
+    <div class="stat"><div class="stat-v">44</div><div class="stat-l">Carritos (1 set)</div></div>
+  </div>
+
+  <!-- ── GRÁFICOS ── -->
+  <div style="display:grid;grid-template-columns:1fr 1fr;gap:20px;margin-bottom:28px">
+
+    <!-- DONUT: composición CAPEX -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--txt2);margin-bottom:16px">Composición del CAPEX</div>
+      <div style="display:flex;align-items:center;gap:24px">
+        <svg viewBox="0 0 120 120" width="120" height="120" style="flex-shrink:0" xmlns="http://www.w3.org/2000/svg">
+          <!-- r=46, circumference=288.8 -->
+          <!-- track -->
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#1a2d45" stroke-width="16"/>
+          <!-- bakers 94.3% = 272.5 of 288.8, starts at top (offset=72.2 = circ/4) -->
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#ffe600" stroke-width="16"
+            stroke-dasharray="272.5 288.8" stroke-dashoffset="72.2" stroke-linecap="butt"/>
+          <!-- fingers 3.7% = 10.7, offset = 72.2 - 272.5 = -200.3 → wrap = 288.8-200.3=88.5 -->
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#3483fa" stroke-width="16"
+            stroke-dasharray="10.7 288.8" stroke-dashoffset="-200.3" stroke-linecap="butt"/>
+          <!-- resto 2% = 5.6, offset after fingers -->
+          <circle cx="60" cy="60" r="46" fill="none" stroke="#2a3f60" stroke-width="16"
+            stroke-dasharray="5.6 288.8" stroke-dashoffset="-211.0" stroke-linecap="butt"/>
+          <!-- center -->
+          <circle cx="60" cy="60" r="30" fill="#08111f"/>
+          <text x="60" y="56" fill="#ffe600" font-size="17" font-weight="800" text-anchor="middle" font-family="Segoe UI,Arial">94%</text>
+          <text x="60" y="70" fill="#7a8ba4" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial">bakers</text>
+        </svg>
+        <div style="flex:1;display:flex;flex-direction:column;gap:10px">
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:12px;height:12px;border-radius:2px;background:#ffe600;flex-shrink:0"></div>
+            <div>
+              <div style="color:var(--txt);font-size:12px;font-weight:700">Bakers (jaulas)</div>
+              <div style="color:var(--txt2);font-size:11px">$493.600 · 94,3%</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:12px;height:12px;border-radius:2px;background:#3483fa;flex-shrink:0"></div>
+            <div>
+              <div style="color:var(--txt);font-size:12px;font-weight:700">Fingers</div>
+              <div style="color:var(--txt2);font-size:11px">$19.500 · 3,7%</div>
+            </div>
+          </div>
+          <div style="display:flex;align-items:center;gap:8px">
+            <div style="width:12px;height:12px;border-radius:2px;background:#2a3f60;flex-shrink:0"></div>
+            <div>
+              <div style="color:var(--txt);font-size:12px;font-weight:700">Resto</div>
+              <div style="color:var(--txt2);font-size:11px">$10.100 · 2,0%</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- BARRAS: con vs sin reutilización -->
+    <div style="background:var(--card);border:1px solid var(--border);border-radius:var(--radius);padding:24px;box-shadow:var(--shadow)">
+      <div style="font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.6px;color:var(--txt2);margin-bottom:20px">Impacto de la reutilización</div>
+      <!-- Barra SIN reutilización: $900.200 = 100% = 220px -->
+      <div style="margin-bottom:18px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="color:var(--txt2);font-size:11px">Sin reutilización</span>
+          <span style="color:#e53935;font-size:12px;font-weight:700">$900.200</span>
+        </div>
+        <div style="height:28px;background:#1a0808;border-radius:4px;overflow:hidden;position:relative">
+          <div style="width:100%;height:100%;background:#e53935;opacity:.35;border-radius:4px"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px">
+            <span style="color:#ff8a80;font-size:10px">1.083 bakers + 78 carritos</span>
+          </div>
+        </div>
+      </div>
+      <!-- Barra CON reutilización: $523.200 = 58.1% = ~128px -->
+      <div style="margin-bottom:24px">
+        <div style="display:flex;justify-content:space-between;margin-bottom:6px">
+          <span style="color:var(--txt2);font-size:11px">Con reutilización</span>
+          <span style="color:var(--yellow);font-size:12px;font-weight:700">$523.200</span>
+        </div>
+        <div style="height:28px;background:#0a1e0a;border-radius:4px;overflow:hidden;position:relative">
+          <div style="width:58.1%;height:100%;background:var(--yellow);opacity:.5;border-radius:4px 0 0 4px"></div>
+          <div style="position:absolute;inset:0;display:flex;align-items:center;padding:0 10px">
+            <span style="color:#ffe600;font-size:10px;font-weight:700">617 bakers · mismo set AM↔PM</span>
+          </div>
+        </div>
+      </div>
+      <!-- ahorro badge -->
+      <div style="background:#0a1e0a;border:1px solid #1a4a1a;border-radius:8px;padding:12px 16px;display:flex;justify-content:space-between;align-items:center">
+        <span style="color:var(--txt2);font-size:12px">Ahorro</span>
+        <span style="color:var(--green);font-size:20px;font-weight:800">-$377.000 <span style="font-size:13px">(-42%)</span></span>
+      </div>
+    </div>
+
+  </div>
+
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Activo</th><th>Cantidad</th><th>Costo unitario</th><th>Total</th><th>% CAPEX</th></tr></thead>
+      <tbody>
+        <tr><td><b>Flow inducción sortable</b><br><span class="sub">Módulo 3,8m × 1,0m</span></td><td class="val">3</td><td>$1.000</td><td>$3.000</td><td>0,6%</td></tr>
+        <tr><td><b>Flow central voluminoso</b><br><span class="sub">Módulo 4,0m × 1,5m</span></td><td class="val">3</td><td>$900</td><td>$2.700</td><td>0,5%</td></tr>
+        <tr><td><b>Fingers</b><br><span class="sub">20 centrales + 19 perpendiculares</span></td><td class="val">39</td><td>$500</td><td>$19.500</td><td>3,7%</td></tr>
+        <tr><td><b>Bakers (jaulas)</b><br><span class="sub">161 sort + 456 vol · reutilizados AM↔PM</span></td><td class="val">617</td><td>$800</td><td>$493.600</td><td>94,3%</td></tr>
+        <tr><td><b>Carritos de supermercado</b><br><span class="sub">4 por calle sortable · reutilizados AM↔PM</span></td><td class="val">44</td><td>$100</td><td>$4.400</td><td>0,8%</td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="capex-total">
+    <div>
+      <div class="capex-total-val">$523.200</div>
+      <div class="capex-total-lbl">CAPEX total — Operación completa nave SVC</div>
+    </div>
+    <div class="capex-saving">
+      <div class="s-val">$372.800</div>
+      <div class="s-lbl">ahorro vs. compra doble (sin reutilización)</div>
+    </div>
+  </div>
+
+  <div class="sec-title" style="margin-top:28px">Análisis de Optimización</div>
+  <div class="tbl-wrap">
+    <table>
+      <thead><tr><th>Escenario</th><th>Bakers</th><th>Carritos</th><th>CAPEX</th><th>Diferencia</th></tr></thead>
+      <tbody>
+        <tr><td>Sin reutilización (AM + PM independientes)</td><td>1.083</td><td>78</td><td>$900.200</td><td style="color:#e53935">— base</td></tr>
+        <tr class="hl"><td><b>Con reutilización (ciclo AM pico)</b></td><td class="val">617</td><td class="val">44</td><td class="val">$523.200</td><td style="color:var(--green)"><b>-$377.000 (-42%)</b></td></tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div class="cards">
+    <div class="card hl">
+      <h3>Palanca principal</h3>
+      <p>Los <b>bakers representan el 94% del CAPEX</b>. La reutilización entre ciclos es la única palanca de ahorro real. Una decisión operativa evita $372.800 de inversión.</p>
+    </div>
+    <div class="card">
+      <h3>Infraestructura fija</h3>
+      <p>Conveyor (33m), espina dorsal (30m) y fingers son infraestructura fija. No incluidos en este CAPEX por no tener precio unitario asignado en el enunciado.</p>
+    </div>
+  </div>
+
+  <div class="next-bar">
+    <span class="next-hint">¿Y cómo queda físicamente la nave?</span>
+    <button class="next-btn" onclick="show('layout', document.querySelectorAll('.nav-btn')[2])">③ Ver Layout →</button>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     ③ LAYOUT TÉCNICO
+══════════════════════════════════════ -->
+<div id="layout" class="section">
+
+  <div class="page-hdr">
+    <div>
+      <h2>Layout Técnico — Plano de Nave</h2>
+      <p>Nave 6.000 m² · 60m × 100m · Escala 1:143 · Flujo: Oeste → Este</p>
+    </div>
+    <div class="badges">
+      <span class="badge by">A ESCALA</span>
+      <span class="badge bb">LANDSCAPE</span>
+    </div>
+  </div>
+
+  <div class="stats">
+    <div class="stat"><div class="stat-v">11 + 19</div><div class="stat-l">Calles Sort + Vol</div></div>
+    <div class="stat"><div class="stat-v">33m</div><div class="stat-l">Largo conveyor</div></div>
+    <div class="stat"><div class="stat-v">30m</div><div class="stat-l">Espina dorsal</div></div>
+    <div class="stat"><div class="stat-v">103</div><div class="stat-l">Plazas Stage Out</div></div>
+    <div class="stat"><div class="stat-v">6.000</div><div class="stat-l">m² nave total</div></div>
+  </div>
+
+  <!-- ── POR QUÉ EL LAYOUT ES ASÍ ── -->
+  <div class="sec-title">Por qué cada zona está donde está</div>
+  <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px">
+
+    <div class="card" style="border-left:3px solid #3483fa">
+      <h3 style="color:#3483fa">Inbound al oeste — 23m</h3>
+      <p>Los camiones de abastecimiento entran por el lado opuesto a los de despacho. Si compartieran el mismo acceso, los cruces de vehículos generarían cuellos de botella permanentes. <b>23m</b> permiten acumular el volumen de un turno completo sin cortar el flujo interno.</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid #00a650">
+      <h3 style="color:#00a650">Inducción en el centro — separada por tipo</h3>
+      <p>La inducción sortable va en la mitad norte (cerca de la cinta) y la voluminosa en la mitad sur (cerca de la espina). No es capricho: cada tipo de paquete tiene su propio sistema de clasificación. Mezclarlos en el mismo punto de entrada generaría confusión operativa y errores de ruta.</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid #ffe600">
+      <h3 style="color:#ffe600">Sortable al norte, voluminoso al sur</h3>
+      <p>La cinta motorizada corre en paralelo a las 11 calles sortable — necesita una línea recta continua de 33m. El voluminoso necesita ancho, no largo: la configuración herringbone ocupa 30m de profundidad pero caben 19 calles. Cada sistema ocupa el cuadrante que más le conviene.</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid #00796b">
+      <h3 style="color:#00796b">Herringbone en voluminoso — no en línea recta</h3>
+      <p>En línea recta, 19 calles de 13,5m necesitarían ~57m de espina. Con herringbone (calles a ambos lados) la espina se reduce a <b>30m</b>. Menos recorrido del operario, menos metros de infraestructura, más espacio libre para maniobra. Es la decisión de diseño con mayor impacto en metros cuadrados.</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid #607d8b">
+      <h3 style="color:#607d8b">Maniobra de 16m — no es espacio perdido</h3>
+      <p>Los bakers llenos pesan hasta 200kg y se mueven con transpaleta. Necesitan espacio para girar, reordenar y avanzar hacia el Stage Out sin bloquear las calles de clasificación. Con menos de 16m, el flujo de bakers colisiona con el de clasificación y la operación se traba.</p>
+    </div>
+
+    <div class="card" style="border-left:3px solid #c084fc">
+      <h3 style="color:#c084fc">Stage Out con rotación ×6 — no con plazas fijas</h3>
+      <p>Tener una plaza por cada baker significaría 617 plazas — imposible en 6.000 m². La solución: cada camión permanece 30 minutos, carga sus bakers y se va. En 3 horas de ventana de despacho, cada plaza rota 6 veces. Con ese cálculo alcanza con <b>103 plazas</b> para despachar todos los bakers del turno.</p>
+    </div>
+
+  </div>
+
+  <!--
+  Scale 7px/m | Building 700×420 | Offset (70,115)
+  svgX = 70 + realX*7   (0=Oeste → 100=Este)
+  svgY = 115 + realY*7  (0=Norte → 60=Sur)
+
+  ZONAS realX:
+    0-23  Inbound    161px
+   23-27  Inducción   28px
+   27-28  Conveyor     7px
+   28-36  Sortable    56px  (realY=0-27.5 → 193px)
+   36-39  Pasillo     21px
+   39-69  Voluminoso 210px
+   69-85  Maniobra   112px
+   85-88  Pasillo     21px
+   88-98  StageOut    70px
+   98-100 Docks       14px
+  ADMIN NE: svgX=665-770, svgY=115-220
+  Espina: realX=54 → svgX=448
+  -->
+
+  <!-- ── BARRA DE PROCESO ── -->
+  <div class="process-bar" style="max-width:960px">
+    <div class="pz">
+      <div class="pz-num" style="background:#1a3a6a;color:#3483fa">1</div>
+      <div class="pz-name" style="color:#3483fa">Inbound</div>
+      <div class="pz-sub">Docks · buffer pallets</div>
+      <div class="pz-dim" style="color:#3483fa">23m</div>
+    </div>
+    <div class="pz narrow">
+      <div class="pz-num" style="background:#0a2a18;color:#00a650">2</div>
+      <div class="pz-name" style="color:#00a650">Inducción</div>
+      <div class="pz-sub">S×3 · V×3</div>
+      <div class="pz-dim" style="color:#00a650">4m</div>
+    </div>
+    <div class="pz narrow">
+      <div class="pz-num" style="background:#1a1e4a;color:#ffe600">3</div>
+      <div class="pz-name" style="color:#8888dd">Sortable</div>
+      <div class="pz-sub">11 calles · 8m prof.</div>
+      <div class="pz-dim" style="color:#8888dd">9m</div>
+    </div>
+    <div class="pz" style="flex:2">
+      <div class="pz-num" style="background:#0a2a22;color:#00a650">4</div>
+      <div class="pz-name" style="color:#00796b">Voluminoso</div>
+      <div class="pz-sub">19 calles · herringbone</div>
+      <div class="pz-dim" style="color:#00796b">30m</div>
+    </div>
+    <div class="pz">
+      <div class="pz-num" style="background:#101820;color:#607d8b">5</div>
+      <div class="pz-name" style="color:#607d8b">Maniobra</div>
+      <div class="pz-sub">Transpaletas · bakers</div>
+      <div class="pz-dim" style="color:#607d8b">16m</div>
+    </div>
+    <div class="pz">
+      <div class="pz-num" style="background:#1a0a28;color:#c084fc">6</div>
+      <div class="pz-name" style="color:#c084fc">Stage Out</div>
+      <div class="pz-sub">103 plazas · giro ×6</div>
+      <div class="pz-dim" style="color:#c084fc">10m</div>
+    </div>
+  </div>
+
+  <svg id="svgLayout" viewBox="0 0 860 530" style="width:100%;max-width:960px;display:block;margin-bottom:16px;border-radius:0 0 10px 10px;box-shadow:0 4px 20px rgba(0,0,0,.4)" xmlns="http://www.w3.org/2000/svg">
+  <defs>
+    <filter id="fw" x="-80%" y="-80%" width="260%" height="260%">
+      <feGaussianBlur in="SourceGraphic" stdDeviation="3" result="b"/>
+      <feMerge><feMergeNode in="b"/><feMergeNode in="SourceGraphic"/></feMerge>
+    </filter>
+    <!-- Hatch pattern for maniobra -->
+    <pattern id="hatch" patternUnits="userSpaceOnUse" width="8" height="8" patternTransform="rotate(45)">
+      <line x1="0" y1="0" x2="0" y2="8" stroke="#1a2d45" stroke-width="1"/>
+    </pattern>
+    <linearGradient id="lFlw" x1="0" y1="0" x2="1" y2="0">
+      <stop offset="0%"   stop-color="#3483fa"/>
+      <stop offset="50%"  stop-color="#ffe600"/>
+      <stop offset="100%" stop-color="#7b1fa2"/>
+    </linearGradient>
+  </defs>
+
+  <!-- BG -->
+  <rect x="0" y="0" width="860" height="530" fill="#0c1220"/>
+
+  <!-- Grid lines (subtle) -->
+  <g stroke="#1a2d45" stroke-width=".5" opacity=".8">
+    <line x1="70"  y1="115" x2="70"  y2="535"/>
+    <line x1="231" y1="115" x2="231" y2="535"/>
+    <line x1="259" y1="115" x2="259" y2="535"/>
+    <line x1="322" y1="115" x2="322" y2="535"/>
+    <line x1="343" y1="115" x2="343" y2="535"/>
+    <line x1="553" y1="115" x2="553" y2="535"/>
+    <line x1="665" y1="115" x2="665" y2="535"/>
+    <line x1="686" y1="115" x2="686" y2="535"/>
+    <line x1="756" y1="115" x2="756" y2="535"/>
+    <line x1="770" y1="115" x2="770" y2="535"/>
+  </g>
+
+  <!-- banda superior vacía — labels movidos a HTML -->
+
+  <!-- ══ EDIFICIO ══ -->
+  <rect x="70" y="115" width="700" height="420" fill="#0d1828" stroke="#2a3f60" stroke-width="1.5" rx="2"/>
+
+  <!-- 1. INBOUND -->
+  <rect x="70" y="115" width="161" height="420" fill="#0a1d38" opacity=".95"/>
+  <text x="150" y="275" fill="#5a9ee8" font-size="12" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700" transform="rotate(-90,150,275)">INBOUND — BUFFER PALLETS</text>
+  <text x="150" y="320" fill="#3a6a9e" font-size="9"  text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,150,320)">23m × 60m · Docks en muro oeste</text>
+  <!-- Dock rectangles on left wall -->
+  <g fill="#3483fa" opacity=".4">
+    <rect x="60" y="138" width="10" height="28" rx="2"/>
+    <rect x="60" y="188" width="10" height="28" rx="2"/>
+    <rect x="60" y="238" width="10" height="28" rx="2"/>
+    <rect x="60" y="288" width="10" height="28" rx="2"/>
+    <rect x="60" y="338" width="10" height="28" rx="2"/>
+    <rect x="60" y="388" width="10" height="28" rx="2"/>
+  </g>
+
+  <!-- 2a. IND. SORTABLE -->
+  <rect x="231" y="115" width="28" height="193" fill="#091a0e" stroke="#1a5c30" stroke-width=".8"/>
+  <text x="245" y="200" fill="#00a650" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700" transform="rotate(-90,245,200)">IND. SORT. ×3 · 1.400pct/h</text>
+
+  <!-- 2b. IND. VOLUMINOSO -->
+  <rect x="231" y="308" width="28" height="227" fill="#1a0808" stroke="#5a2020" stroke-width=".8"/>
+  <text x="245" y="410" fill="#ff6b6b" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700" transform="rotate(-90,245,410)">IND. VOL. ×3 · 400pct/h</text>
+
+  <!-- 3. CONVEYOR -->
+  <rect x="259" y="115" width="7" height="193" fill="#ffe600" filter="url(#fw)"/>
+  <rect x="259" y="115" width="7" height="193" fill="#ffe600"/>
+
+  <!-- 4. CALLES SORTABLE -->
+  <rect x="266" y="115" width="56" height="193" fill="#0a1428"/>
+  <!-- Lane lines (11 calles) -->
+  <g stroke="#1e3a5a" stroke-width=".8">
+    <line x1="266" y1="132.5" x2="322" y2="132.5"/>
+    <line x1="266" y1="150"   x2="322" y2="150"/>
+    <line x1="266" y1="167.5" x2="322" y2="167.5"/>
+    <line x1="266" y1="185"   x2="322" y2="185"/>
+    <line x1="266" y1="202.5" x2="322" y2="202.5"/>
+    <line x1="266" y1="220"   x2="322" y2="220"/>
+    <line x1="266" y1="237.5" x2="322" y2="237.5"/>
+    <line x1="266" y1="255"   x2="322" y2="255"/>
+    <line x1="266" y1="272.5" x2="322" y2="272.5"/>
+    <line x1="266" y1="290"   x2="322" y2="290"/>
+  </g>
+  <!-- Baker columns (blue dark) -->
+  <rect x="266" y="115" width="5" height="193" fill="#1e3a8a" opacity=".5"/>
+  <rect x="317" y="115" width="5" height="193" fill="#1e3a8a" opacity=".5"/>
+  <!-- Label -->
+  <text x="294" y="165" fill="#3483fa" font-size="8.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700" transform="rotate(-90,294,165)">11 CALLES SORT.</text>
+  <!-- Pescadores (yellow dots) -->
+  <g fill="#ffe600" stroke="#2d3277" stroke-width=".8">
+    <circle cx="262" cy="123.75" r="3"/>
+    <circle cx="262" cy="141.25" r="3"/>
+    <circle cx="262" cy="158.75" r="3"/>
+    <circle cx="262" cy="176.25" r="3"/>
+    <circle cx="262" cy="193.75" r="3"/>
+    <circle cx="262" cy="211.25" r="3"/>
+    <circle cx="262" cy="228.75" r="3"/>
+    <circle cx="262" cy="246.25" r="3"/>
+    <circle cx="262" cy="263.75" r="3"/>
+    <circle cx="262" cy="281.25" r="3"/>
+    <circle cx="262" cy="298.75" r="3"/>
+  </g>
+  <!-- Conveyor arrows -->
+  <g fill="#2d3277" opacity=".6">
+    <polygon points="259,129 265,132 259,135"/>
+    <polygon points="259,155 265,158 259,161"/>
+    <polygon points="259,181 265,184 259,187"/>
+    <polygon points="259,207 265,210 259,213"/>
+    <polygon points="259,233 265,236 259,239"/>
+    <polygon points="259,259 265,262 259,265"/>
+    <polygon points="259,285 265,288 259,291"/>
+  </g>
+  <!-- Sur libre -->
+  <rect x="259" y="308" width="63" height="227" fill="#0a1020" opacity=".9"/>
+  <text x="290" y="390" fill="#2a3a55" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,290,390)">circulación sur</text>
+
+  <!-- 5. PASILLO CENTRAL -->
+  <rect x="322" y="115" width="21" height="420" fill="url(#hatch)" stroke="#253a5a" stroke-width=".6"/>
+  <text x="332" y="330" fill="#4a6080" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,332,330)">PASILLO · 3m</text>
+
+  <!-- 6. CALLES VOLUMINOSO -->
+  <rect x="343" y="115" width="210" height="420" fill="#091510"/>
+  <!-- Lane lines (19 calles × 3m × 7px = 399px, centered) -->
+  <g stroke="#1a4030" stroke-width=".8" opacity=".9">
+    <line x1="343" y1="136" x2="553" y2="136"/>
+    <line x1="343" y1="157" x2="553" y2="157"/>
+    <line x1="343" y1="178" x2="553" y2="178"/>
+    <line x1="343" y1="199" x2="553" y2="199"/>
+    <line x1="343" y1="220" x2="553" y2="220"/>
+    <line x1="343" y1="241" x2="553" y2="241"/>
+    <line x1="343" y1="262" x2="553" y2="262"/>
+    <line x1="343" y1="283" x2="553" y2="283"/>
+    <line x1="343" y1="304" x2="553" y2="304"/>
+    <line x1="343" y1="325" x2="553" y2="325"/>
+    <line x1="343" y1="346" x2="553" y2="346"/>
+    <line x1="343" y1="367" x2="553" y2="367"/>
+    <line x1="343" y1="388" x2="553" y2="388"/>
+    <line x1="343" y1="409" x2="553" y2="409"/>
+    <line x1="343" y1="430" x2="553" y2="430"/>
+    <line x1="343" y1="451" x2="553" y2="451"/>
+    <line x1="343" y1="472" x2="553" y2="472"/>
+    <line x1="343" y1="493" x2="553" y2="493"/>
+  </g>
+  <!-- Baker walls -->
+  <rect x="343" y="115" width="6" height="420" fill="#065f46" opacity=".35"/>
+  <rect x="547" y="115" width="6" height="420" fill="#065f46" opacity=".35"/>
+  <!-- Espina: realX=54 → svgX=448 -->
+  <rect x="445" y="115" width="8" height="420" fill="#ffe600" filter="url(#fw)"/>
+  <rect x="445" y="115" width="8" height="420" fill="#ffe600"/>
+  <!-- Pescadores voluminoso (izq y der de espina) -->
+  <g fill="#ffe600" stroke="#065f46" stroke-width=".8">
+    <circle cx="440" cy="125.5" r="2.5"/><circle cx="458" cy="125.5" r="2.5"/>
+    <circle cx="440" cy="146.5" r="2.5"/><circle cx="458" cy="146.5" r="2.5"/>
+    <circle cx="440" cy="167.5" r="2.5"/><circle cx="458" cy="167.5" r="2.5"/>
+    <circle cx="440" cy="188.5" r="2.5"/><circle cx="458" cy="188.5" r="2.5"/>
+    <circle cx="440" cy="209.5" r="2.5"/><circle cx="458" cy="209.5" r="2.5"/>
+    <circle cx="440" cy="230.5" r="2.5"/><circle cx="458" cy="230.5" r="2.5"/>
+    <circle cx="440" cy="251.5" r="2.5"/><circle cx="458" cy="251.5" r="2.5"/>
+    <circle cx="440" cy="272.5" r="2.5"/><circle cx="458" cy="272.5" r="2.5"/>
+    <circle cx="440" cy="293.5" r="2.5"/><circle cx="458" cy="293.5" r="2.5"/>
+    <circle cx="440" cy="314.5" r="2.5"/><circle cx="458" cy="314.5" r="2.5"/>
+    <circle cx="440" cy="335.5" r="2.5"/><circle cx="458" cy="335.5" r="2.5"/>
+    <circle cx="440" cy="356.5" r="2.5"/><circle cx="458" cy="356.5" r="2.5"/>
+    <circle cx="440" cy="377.5" r="2.5"/><circle cx="458" cy="377.5" r="2.5"/>
+    <circle cx="440" cy="398.5" r="2.5"/><circle cx="458" cy="398.5" r="2.5"/>
+    <circle cx="440" cy="419.5" r="2.5"/><circle cx="458" cy="419.5" r="2.5"/>
+    <circle cx="440" cy="440.5" r="2.5"/><circle cx="458" cy="440.5" r="2.5"/>
+    <circle cx="440" cy="461.5" r="2.5"/><circle cx="458" cy="461.5" r="2.5"/>
+    <circle cx="440" cy="482.5" r="2.5"/><circle cx="458" cy="482.5" r="2.5"/>
+    <circle cx="440" cy="503.5" r="2.5"/><circle cx="458" cy="503.5" r="2.5"/>
+  </g>
+  <!-- Labels voluminoso -->
+  <text x="390" y="330" fill="#00a650" font-size="11" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700" transform="rotate(-90,390,330)">19 CALLES VOLUMINOSO</text>
+  <text x="510" y="330" fill="#1a5c30" font-size="9"  text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,510,330)">Herringbone · espina + fingers · 30m</text>
+  <text x="449" y="108" fill="#ffe600" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">ESPINA</text>
+
+  <!-- 7. MANIOBRA -->
+  <rect x="553" y="115" width="112" height="420" fill="url(#hatch)"/>
+  <rect x="553" y="115" width="112" height="420" fill="#0d1522" opacity=".75"/>
+  <text x="609" y="310" fill="#5a7090" font-size="11" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700" transform="rotate(-90,609,310)">ÁREA DE MANIOBRA · 16m</text>
+  <text x="622" y="310" fill="#3a5070" font-size="9"  text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,622,310)">Traslado bakers · transpaletas</text>
+  <!-- Transpaleta icon -->
+  <g transform="translate(590,390)" fill="#94a3b8" opacity=".5">
+    <rect x="0" y="0" width="30" height="8" rx="2"/>
+    <rect x="26" y="-18" width="4" height="20" rx="1"/>
+    <circle cx="4"  cy="10" r="4"/>
+    <circle cx="22" cy="10" r="4"/>
+  </g>
+
+  <!-- 8. PASILLO DESPACHO -->
+  <rect x="665" y="115" width="21" height="420" fill="url(#hatch)" stroke="#253a5a" stroke-width=".6"/>
+  <text x="675" y="330" fill="#4a6080" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,675,330)">PASILLO · 3m</text>
+
+  <!-- 9. STAGE OUT -->
+  <rect x="686" y="115" width="70" height="420" fill="#100920" stroke="#4a3077" stroke-width=".8"/>
+  <!-- Stalls -->
+  <g fill="#1c1035" stroke="#6b52a8" stroke-width=".8">
+    <rect x="688" y="225" width="38" height="19" rx="1"/>
+    <rect x="688" y="245" width="38" height="19" rx="1"/>
+    <rect x="688" y="265" width="38" height="19" rx="1"/>
+    <rect x="688" y="285" width="38" height="19" rx="1"/>
+    <rect x="688" y="305" width="38" height="19" rx="1"/>
+    <rect x="688" y="325" width="38" height="19" rx="1"/>
+    <rect x="688" y="345" width="38" height="19" rx="1"/>
+    <rect x="688" y="365" width="38" height="19" rx="1"/>
+    <rect x="688" y="385" width="38" height="19" rx="1"/>
+    <rect x="688" y="405" width="38" height="19" rx="1"/>
+    <rect x="688" y="425" width="38" height="19" rx="1"/>
+    <rect x="688" y="445" width="38" height="19" rx="1"/>
+    <rect x="688" y="465" width="38" height="19" rx="1"/>
+    <rect x="688" y="485" width="38" height="19" rx="1"/>
+    <rect x="688" y="505" width="38" height="19" rx="1"/>
+  </g>
+  <text x="721" y="185" fill="#c084fc" font-size="11" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">STAGE</text>
+  <text x="721" y="200" fill="#c084fc" font-size="11" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">OUT</text>
+  <text x="721" y="215" fill="#9060c8" font-size="9"  text-anchor="middle" font-family="Segoe UI,Arial">103 plzas</text>
+  <text x="721" y="226" fill="#9060c8" font-size="8"  text-anchor="middle" font-family="Segoe UI,Arial">giro ×6</text>
+
+  <!-- 10. DOCKS (este) -->
+  <rect x="756" y="115" width="14" height="420" fill="#131e35" stroke="#2a3f60" stroke-width=".5"/>
+  <text x="763" y="330" fill="#3a5070" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,763,330)">DOCKS</text>
+  <g fill="#3483fa" opacity=".35">
+    <rect x="756" y="138" width="14" height="24" rx="1"/>
+    <rect x="756" y="184" width="14" height="24" rx="1"/>
+    <rect x="756" y="230" width="14" height="24" rx="1"/>
+    <rect x="756" y="276" width="14" height="24" rx="1"/>
+    <rect x="756" y="322" width="14" height="24" rx="1"/>
+    <rect x="756" y="368" width="14" height="24" rx="1"/>
+    <rect x="756" y="414" width="14" height="24" rx="1"/>
+    <rect x="756" y="460" width="14" height="24" rx="1"/>
+    <rect x="756" y="506" width="14" height="24" rx="1"/>
+  </g>
+
+  <!-- ADMIN NE -->
+  <rect x="665" y="115" width="91" height="91" fill="#2d3277" rx="1"/>
+  <text x="710" y="154" fill="#ffe600" font-size="13" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">ADMIN</text>
+  <text x="710" y="169" fill="#8888cc" font-size="9"  text-anchor="middle" font-family="Segoe UI,Arial">15 m × 15 m</text>
+  <text x="710" y="182" fill="#6666aa" font-size="8"  text-anchor="middle" font-family="Segoe UI,Arial">Esquina NE</text>
+
+  <!-- ══ BORDE EDIFICIO ══ -->
+  <rect x="70" y="115" width="700" height="420" fill="none" stroke="#2d3277" stroke-width="2" rx="2"/>
+
+  <!-- ══ FLECHA DE FLUJO ══ -->
+  <rect x="70" y="548" width="688" height="6" fill="url(#lFlw)" rx="3" opacity=".9"/>
+  <polygon points="754,543 770,551 754,559" fill="#c084fc" opacity=".9"/>
+  <text x="74"  y="566" fill="#3483fa" font-size="9" font-family="Segoe UI,Arial" font-weight="700">INBOUND</text>
+  <text x="415" y="566" fill="#4a6080" font-size="9" font-family="Segoe UI,Arial" text-anchor="middle">──── FLUJO OPERATIVO ────→</text>
+  <text x="770" y="566" fill="#c084fc" font-size="9" font-family="Segoe UI,Arial" text-anchor="end" font-weight="700">DESPACHO</text>
+
+  <!-- ══ COTAS ══ -->
+  <line x1="70" y1="580" x2="770" y2="580" stroke="#2a3f60" stroke-width="1"/>
+  <line x1="70"  y1="577" x2="70"  y2="583" stroke="#3a5070" stroke-width="1"/>
+  <line x1="770" y1="577" x2="770" y2="583" stroke="#3a5070" stroke-width="1"/>
+  <text x="420" y="594" fill="#4a6080" font-size="9" text-anchor="middle" font-family="Segoe UI,Arial">100 m</text>
+  <line x1="52" y1="115" x2="52" y2="535" stroke="#2a3f60" stroke-width="1"/>
+  <line x1="49" y1="115" x2="55" y2="115" stroke="#3a5070" stroke-width="1"/>
+  <line x1="49" y1="535" x2="55" y2="535" stroke="#3a5070" stroke-width="1"/>
+  <text x="38" y="330" fill="#4a6080" font-size="9" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,38,330)">60 m</text>
+  <!-- Cotas zona -->
+  <text x="150" y="110" fill="#5a9ee8" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="600">23m</text>
+  <text x="294" y="110" fill="#3483fa" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="600">9m</text>
+  <text x="448" y="110" fill="#00a650" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="600">30m</text>
+  <text x="609" y="110" fill="#5a7090" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="600">16m</text>
+  <text x="721" y="110" fill="#c084fc" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="600">10m</text>
+  <!-- N/S -->
+  <text x="800" y="121" fill="#3a5070" font-size="11" font-family="Segoe UI,Arial" font-weight="700" text-anchor="middle">N</text>
+  <text x="800" y="537" fill="#3a5070" font-size="11" font-family="Segoe UI,Arial" font-weight="700" text-anchor="middle">S</text>
+  <line x1="800" y1="126" x2="800" y2="532" stroke="#1a2d45" stroke-width="1" stroke-dasharray="3,4"/>
+  <!-- Escala -->
+  <rect x="70"  y="602" width="35" height="4" fill="#3483fa"/>
+  <rect x="105" y="602" width="35" height="4" fill="#2a3f60"/>
+  <text x="70"  y="600" fill="#4a6080" font-size="8" font-family="Segoe UI,Arial">0</text>
+  <text x="103" y="600" fill="#4a6080" font-size="8" font-family="Segoe UI,Arial">5m</text>
+  <text x="138" y="600" fill="#4a6080" font-size="8" font-family="Segoe UI,Arial">10m</text>
+  <text x="72"  y="613" fill="#3a5070" font-size="7.5" font-family="Segoe UI,Arial" font-style="italic">Escala 1:143</text>
+
+  </svg>
+
+  <!-- LEYENDA -->
+  <div class="legend-wrap">
+    <div class="chip"><div class="cd" style="background:#3483fa"></div>Inbound — Buffer pallets (23m)</div>
+    <div class="chip"><div class="cd" style="background:#00a650"></div>Inducción sortable ×3</div>
+    <div class="chip"><div class="cd" style="background:#e53935"></div>Inducción voluminoso ×3</div>
+    <div class="chip"><div class="cd" style="background:#ffe600;border:1px solid #ccc"></div>Conveyor 33m · Espina dorsal 30m</div>
+    <div class="chip"><div class="cd" style="background:#2d3277"></div>Calles sortable — 11 · 8m prof.</div>
+    <div class="chip"><div class="cd" style="background:#00796b"></div>Calles voluminoso — 19 · herringbone</div>
+    <div class="chip"><div class="cd" style="background:#94a3b8"></div>Área de maniobra (16m)</div>
+    <div class="chip"><div class="cd" style="background:#7b1fa2"></div>Stage Out — 103 plazas · giro ×6</div>
+    <div class="chip"><div class="cd" style="background:#2d3277"></div>Área administrativa 15×15m</div>
+    <div class="chip"><div class="cd" style="background:#ffe600;border:1px solid #ccc"></div>● Pescador (posición fija)</div>
+  </div>
+
+  <div class="next-bar">
+    <span class="next-hint">¿Qué es cada equipo?</span>
+    <button class="next-btn" onclick="show('glosario', document.querySelectorAll('.nav-btn')[3])">④ Ver Glosario →</button>
+  </div>
+
+</div>
+
+
+<!-- ══════════════════════════════════════
+     ④ GLOSARIO VISUAL
+══════════════════════════════════════ -->
+<div id="glosario" class="section">
+
+  <div class="page-hdr">
+    <div>
+      <h2>Glosario Visual de Equipos</h2>
+      <p>Referencia ilustrada de los activos clave de la operación SVC</p>
+    </div>
+    <div class="badges"><span class="badge by">REFERENCIA</span></div>
+  </div>
+
+  <div class="glosario-grid">
+
+    <!-- BAKER -->
+    <div class="glosario-card">
+      <div class="gc-head"><div class="gc-head-dot"></div><h3>Baker — Jaula Metálica</h3></div>
+      <div class="gc-body">
+        <svg viewBox="0 0 320 200" style="width:100%;background:#08111f;margin-bottom:12px;border-radius:6px" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gCage" x1="0" y1="0" x2="1" y2="0">
+              <stop offset="0%" stop-color="#0d1e38"/>
+              <stop offset="100%" stop-color="#0a1628"/>
+            </linearGradient>
+          </defs>
+          <!-- floor shadow -->
+          <ellipse cx="148" cy="188" rx="72" ry="6" fill="#000" opacity=".4"/>
+          <!-- cage body fill -->
+          <rect x="76" y="28" width="144" height="148" fill="url(#gCage)" stroke="#ffe600" stroke-width="1.8" rx="1"/>
+          <!-- top horizontal bar (thicker) -->
+          <rect x="76" y="28" width="144" height="5" fill="#ffe600" opacity=".6" rx="1"/>
+          <!-- bottom horizontal bar -->
+          <rect x="76" y="171" width="144" height="5" fill="#ffe600" opacity=".35" rx="1"/>
+          <!-- vertical structure bars -->
+          <rect x="76"  y="28" width="5" height="148" fill="#ffe600" opacity=".45"/>
+          <rect x="215" y="28" width="5" height="148" fill="#ffe600" opacity=".45"/>
+          <rect x="124" y="28" width="3" height="148" fill="#2d5a8e" opacity=".7"/>
+          <rect x="170" y="28" width="3" height="148" fill="#2d5a8e" opacity=".7"/>
+          <!-- horizontal shelf bars -->
+          <rect x="76" y="70"  width="144" height="3" fill="#2d5a8e" opacity=".8"/>
+          <rect x="76" y="113" width="144" height="3" fill="#2d5a8e" opacity=".8"/>
+          <!-- mesh vertical lines -->
+          <g stroke="#1a3356" stroke-width=".7" opacity=".9">
+            <line x1="97"  y1="28" x2="97"  y2="176"/>
+            <line x1="111" y1="28" x2="111" y2="176"/>
+            <line x1="138" y1="28" x2="138" y2="176"/>
+            <line x1="152" y1="28" x2="152" y2="176"/>
+            <line x1="183" y1="28" x2="183" y2="176"/>
+            <line x1="197" y1="28" x2="197" y2="176"/>
+          </g>
+          <!-- mesh horizontal lines -->
+          <g stroke="#1a3356" stroke-width=".7" opacity=".9">
+            <line x1="76" y1="45" x2="220" y2="45"/>
+            <line x1="76" y1="58" x2="220" y2="58"/>
+            <line x1="76" y1="84" x2="220" y2="84"/>
+            <line x1="76" y1="98" x2="220" y2="98"/>
+            <line x1="76" y1="127" x2="220" y2="127"/>
+            <line x1="76" y1="141" x2="220" y2="141"/>
+            <line x1="76" y1="157" x2="220" y2="157"/>
+          </g>
+          <!-- packages shelf 1 (visible between bars) -->
+          <rect x="82"  y="74" width="38" height="34" fill="#ffe600" opacity=".22" rx="2"/>
+          <rect x="128" y="74" width="38" height="34" fill="#3483fa" opacity=".2" rx="2"/>
+          <rect x="174" y="74" width="38" height="34" fill="#ffe600" opacity=".18" rx="2"/>
+          <!-- packages shelf 2 -->
+          <rect x="82"  y="117" width="42" height="30" fill="#3483fa" opacity=".18" rx="2"/>
+          <rect x="132" y="117" width="35" height="30" fill="#ffe600" opacity=".18" rx="2"/>
+          <rect x="174" y="117" width="38" height="30" fill="#3483fa" opacity=".16" rx="2"/>
+          <!-- route label on front -->
+          <rect x="100" y="155" width="96" height="16" fill="#0d2040" stroke="#ffe600" stroke-width="1" rx="2"/>
+          <text x="148" y="166" fill="#ffe600" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">RUTA ZN-047</text>
+          <!-- wheels -->
+          <g fill="#06101e" stroke="#3a5a80" stroke-width="1.5">
+            <circle cx="93"  cy="185" r="8"/> <circle cx="93"  cy="185" r="3" fill="#1e3a55" stroke="none"/>
+            <circle cx="203" cy="185" r="8"/> <circle cx="203" cy="185" r="3" fill="#1e3a55" stroke="none"/>
+          </g>
+          <!-- axle -->
+          <line x1="101" y1="185" x2="195" y2="185" stroke="#1a2d45" stroke-width="1.2"/>
+          <!-- dimension callouts -->
+          <line x1="228" y1="28"  x2="232" y2="28"  stroke="#3a5a80" stroke-width="1"/>
+          <line x1="228" y1="176" x2="232" y2="176" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="230" y1="30"  x2="230" y2="174" stroke="#3a5a80" stroke-width="1"/>
+          <polygon points="230,29 227,36 233,36" fill="#3a5a80"/>
+          <polygon points="230,175 227,168 233,168" fill="#3a5a80"/>
+          <text x="244" y="106" fill="#7a8ba4" font-size="8.5" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(90,244,106)">1,8 m alt.</text>
+          <!-- width callout -->
+          <line x1="76"  y1="12" x2="76"  y2="18" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="220" y1="12" x2="220" y2="18" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="78"  y1="15" x2="218" y2="15" stroke="#3a5a80" stroke-width="1"/>
+          <polygon points="79,15 86,12 86,18" fill="#3a5a80"/>
+          <polygon points="217,15 210,12 210,18" fill="#3a5a80"/>
+          <text x="148" y="11" fill="#7a8ba4" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial">0,6m × 1,0m</text>
+          <!-- cap label -->
+          <text x="56" y="106" fill="#4a6b90" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial" transform="rotate(-90,56,106)">68 pct sort · 6 pct vol</text>
+        </svg>
+        <p><b>Función:</b> Contenedor metálico con ruedas para clasificar paquetes por ruta. Se sube directamente al camión en el despacho.<br><br><b>Regla:</b> 1 Baker = 1 Ruta = 1 Destino.</p>
+      </div>
+    </div>
+
+    <!-- CARRITO -->
+    <div class="glosario-card">
+      <div class="gc-head"><div class="gc-head-dot"></div><h3>Carrito de Supermercado — Buffer</h3></div>
+      <div class="gc-body">
+        <svg viewBox="0 0 320 200" style="width:100%;background:#08111f;margin-bottom:12px;border-radius:6px" xmlns="http://www.w3.org/2000/svg">
+          <!-- floor shadow -->
+          <ellipse cx="148" cy="192" rx="65" ry="5" fill="#000" opacity=".4"/>
+          <!-- rear leg -->
+          <rect x="192" y="100" width="5" height="80" fill="#1a3a10" rx="1"/>
+          <!-- basket body -->
+          <rect x="72" y="56" width="140" height="90" fill="#091a0e" stroke="#00a650" stroke-width="1.8" rx="2"/>
+          <!-- basket top open frame -->
+          <rect x="72" y="56" width="140" height="4" fill="#00a650" opacity=".5" rx="1"/>
+          <!-- wire mesh vertical -->
+          <g stroke="#1a4a20" stroke-width=".9">
+            <line x1="92"  y1="60" x2="92"  y2="146"/>
+            <line x1="112" y1="60" x2="112" y2="146"/>
+            <line x1="132" y1="60" x2="132" y2="146"/>
+            <line x1="152" y1="60" x2="152" y2="146"/>
+            <line x1="172" y1="60" x2="172" y2="146"/>
+            <line x1="192" y1="60" x2="192" y2="146"/>
+          </g>
+          <!-- wire mesh horizontal -->
+          <g stroke="#1a4a20" stroke-width=".9">
+            <line x1="72" y1="76"  x2="212" y2="76"/>
+            <line x1="72" y1="95"  x2="212" y2="95"/>
+            <line x1="72" y1="114" x2="212" y2="114"/>
+            <line x1="72" y1="132" x2="212" y2="132"/>
+          </g>
+          <!-- packages inside -->
+          <rect x="78"  y="62" width="40" height="28" fill="#ffe600" opacity=".2" rx="2"/>
+          <rect x="124" y="62" width="36" height="28" fill="#3483fa" opacity=".18" rx="2"/>
+          <rect x="78"  y="97" width="42" height="28" fill="#3483fa" opacity=".16" rx="2"/>
+          <rect x="128" y="99" width="34" height="26" fill="#ffe600" opacity=".18" rx="2"/>
+          <!-- handle post left -->
+          <rect x="76" y="22" width="4" height="38" fill="#00a650" opacity=".7" rx="2"/>
+          <!-- handle bar -->
+          <rect x="52" y="20" width="30" height="6" fill="#00a650" rx="3"/>
+          <!-- front two legs -->
+          <rect x="82"  y="146" width="5" height="38" fill="#1a4a20" rx="1"/>
+          <rect x="188" y="146" width="5" height="38" fill="#1a4a20" rx="1"/>
+          <!-- bottom cross bar -->
+          <line x1="87" y1="178" x2="188" y2="178" stroke="#1a4a20" stroke-width="2"/>
+          <!-- wheels -->
+          <g fill="#06101e" stroke="#00a650" stroke-width="1.2">
+            <circle cx="85"  cy="184" r="7"/> <circle cx="85"  cy="184" r="2.5" fill="#1a3a10" stroke="none"/>
+            <circle cx="195" cy="184" r="7"/> <circle cx="195" cy="184" r="2.5" fill="#1a3a10" stroke="none"/>
+          </g>
+          <!-- label badge top right -->
+          <rect x="228" y="52" width="72" height="44" fill="#0d1e10" stroke="#00a650" stroke-width="1" rx="4"/>
+          <text x="264" y="70"  fill="#00a650" font-size="9"  text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">BUFFER</text>
+          <text x="264" y="83"  fill="#ffe600" font-size="14" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">×44</text>
+          <text x="264" y="93"  fill="#4a6b90" font-size="7"  text-anchor="middle" font-family="Segoe UI,Arial">total</text>
+          <!-- dim annotation -->
+          <line x1="72"  y1="14" x2="72"  y2="20" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="212" y1="14" x2="212" y2="20" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="74"  y1="17" x2="210" y2="17" stroke="#3a5a80" stroke-width="1"/>
+          <text x="142" y="13" fill="#7a8ba4" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial">0,5m × 1,0m</text>
+          <!-- role label -->
+          <text x="148" y="196" fill="#4a6b90" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">2 buffer pescador · 2 sorteador / calle</text>
+        </svg>
+        <p><b>Función:</b> Buffer móvil entre conveyor y calle. El pescador carga paquetes en los carritos; el sorteador los lleva a los bakers.<br><br><b>Total:</b> 4 por calle × 11 calles = <b>44 carritos</b>.</p>
+      </div>
+    </div>
+
+    <!-- CONVEYOR -->
+    <div class="glosario-card">
+      <div class="gc-head"><div class="gc-head-dot"></div><h3>Conveyor Motorizado — Mainline</h3></div>
+      <div class="gc-body">
+        <svg viewBox="0 0 320 200" style="width:100%;background:#08111f;margin-bottom:12px;border-radius:6px" xmlns="http://www.w3.org/2000/svg">
+          <defs>
+            <linearGradient id="gBelt" x1="0" y1="0" x2="0" y2="1">
+              <stop offset="0%" stop-color="#1a3356"/>
+              <stop offset="100%" stop-color="#0d1e38"/>
+            </linearGradient>
+          </defs>
+          <!-- side rail top -->
+          <rect x="10" y="74" width="254" height="7" fill="#1a3356" stroke="#2d5a8e" stroke-width="1" rx="1"/>
+          <!-- side rail bottom -->
+          <rect x="10" y="105" width="254" height="7" fill="#1a3356" stroke="#2d5a8e" stroke-width="1" rx="1"/>
+          <!-- belt surface -->
+          <rect x="14" y="81" width="246" height="24" fill="url(#gBelt)" rx="1"/>
+          <!-- belt texture lines -->
+          <g stroke="#0f2040" stroke-width="2" opacity=".8">
+            <line x1="24"  y1="81" x2="24"  y2="105"/>
+            <line x1="40"  y1="81" x2="40"  y2="105"/>
+            <line x1="56"  y1="81" x2="56"  y2="105"/>
+            <line x1="72"  y1="81" x2="72"  y2="105"/>
+            <line x1="88"  y1="81" x2="88"  y2="105"/>
+            <line x1="104" y1="81" x2="104" y2="105"/>
+            <line x1="120" y1="81" x2="120" y2="105"/>
+            <line x1="136" y1="81" x2="136" y2="105"/>
+            <line x1="152" y1="81" x2="152" y2="105"/>
+            <line x1="168" y1="81" x2="168" y2="105"/>
+            <line x1="184" y1="81" x2="184" y2="105"/>
+            <line x1="200" y1="81" x2="200" y2="105"/>
+            <line x1="216" y1="81" x2="216" y2="105"/>
+            <line x1="232" y1="81" x2="232" y2="105"/>
+            <line x1="248" y1="81" x2="248" y2="105"/>
+          </g>
+          <!-- packages on belt -->
+          <rect x="16"  y="68" width="28" height="17" fill="#ffe600" opacity=".65" rx="2"/>
+          <text x="30"  y="80" fill="#0d1e38" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">PKG</text>
+          <rect x="68"  y="68" width="28" height="17" fill="#3483fa" opacity=".6" rx="2"/>
+          <text x="82"  y="80" fill="#fff" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">PKG</text>
+          <rect x="130" y="68" width="28" height="17" fill="#ffe600" opacity=".55" rx="2"/>
+          <text x="144" y="80" fill="#0d1e38" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">PKG</text>
+          <rect x="192" y="68" width="28" height="17" fill="#3483fa" opacity=".5" rx="2"/>
+          <!-- end roller left -->
+          <rect x="8" y="73" width="8" height="40" fill="#2d5a8e" stroke="#3a6aaa" stroke-width="1" rx="2"/>
+          <circle cx="12" cy="93" r="5" fill="#1a3356" stroke="#3a6aaa" stroke-width="1"/>
+          <!-- motor block right -->
+          <rect x="264" y="65" width="46" height="55" fill="#0f1e35" stroke="#ffe600" stroke-width="1.5" rx="3"/>
+          <rect x="268" y="70" width="38" height="12" fill="#ffe600" opacity=".15" rx="2"/>
+          <text x="287" y="80"  fill="#ffe600" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">MOTOR</text>
+          <!-- rotation arrow around motor -->
+          <path d="M 278,96 A 9,9 0 1 1 296,96" fill="none" stroke="#ffe600" stroke-width="1.5" opacity=".7"/>
+          <polygon points="296,94 300,101 292,100" fill="#ffe600" opacity=".7"/>
+          <!-- speed badge -->
+          <rect x="268" y="103" width="38" height="14" fill="#0d2040" rx="2"/>
+          <text x="287" y="114" fill="#3483fa" font-size="7" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">1.400 pct/h</text>
+          <!-- support legs -->
+          <rect x="14"  y="112" width="6" height="44" fill="#1a2d45" rx="1"/>
+          <rect x="126" y="112" width="6" height="44" fill="#1a2d45" rx="1"/>
+          <rect x="250" y="112" width="6" height="44" fill="#1a2d45" rx="1"/>
+          <!-- floor line -->
+          <line x1="8" y1="156" x2="260" y2="156" stroke="#1a2d45" stroke-width="1.5"/>
+          <!-- dim annotation top -->
+          <line x1="8"   y1="14" x2="8"   y2="20" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="262" y1="14" x2="262" y2="20" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="10"  y1="17" x2="260" y2="17" stroke="#3a5a80" stroke-width="1"/>
+          <polygon points="11,17 18,14 18,20" fill="#3a5a80"/>
+          <polygon points="259,17 252,14 252,20" fill="#3a5a80"/>
+          <text x="134" y="13" fill="#7a8ba4" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">33 m</text>
+          <!-- flow label -->
+          <text x="134" y="175" fill="#3483fa" font-size="9" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">→ → flujo sortable → →</text>
+          <text x="134" y="188" fill="#4a6b90" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">Inducción → 11 bocas de calle</text>
+        </svg>
+        <p><b>Función:</b> Transporta paquetes sortables desde la inducción hasta las bocas de calle. El paquete viaja sin intervención humana.<br><br><b>Dimensión:</b> 33m de largo × 1m de ancho.</p>
+      </div>
+    </div>
+
+    <!-- FINGER -->
+    <div class="glosario-card">
+      <div class="gc-head"><div class="gc-head-dot"></div><h3>Finger — Rodillos de Gravedad</h3></div>
+      <div class="gc-body">
+        <svg viewBox="0 0 320 200" style="width:100%;background:#08111f;margin-bottom:12px;border-radius:6px" xmlns="http://www.w3.org/2000/svg">
+          <!-- ─── ESPINA DORSAL (horizontal) ─── -->
+          <text x="104" y="14" fill="#00a650" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">ESPINA DORSAL — finger central</text>
+          <!-- side rails -->
+          <rect x="8"  y="76" width="192" height="5" fill="#00a650" opacity=".6" rx="1"/>
+          <rect x="8"  y="105" width="192" height="5" fill="#00a650" opacity=".4" rx="1"/>
+          <!-- rollers espina -->
+          <g fill="#0d2d18" stroke="#00a650" stroke-width=".8">
+            <rect x="13"  y="81" width="8" height="24" rx="4"/>
+            <rect x="27"  y="81" width="8" height="24" rx="4"/>
+            <rect x="41"  y="81" width="8" height="24" rx="4"/>
+            <rect x="55"  y="81" width="8" height="24" rx="4"/>
+            <rect x="69"  y="81" width="8" height="24" rx="4"/>
+            <rect x="83"  y="81" width="8" height="24" rx="4"/>
+            <rect x="97"  y="81" width="8" height="24" rx="4"/>
+            <rect x="111" y="81" width="8" height="24" rx="4"/>
+            <rect x="125" y="81" width="8" height="24" rx="4"/>
+            <rect x="139" y="81" width="8" height="24" rx="4"/>
+            <rect x="153" y="81" width="8" height="24" rx="4"/>
+            <rect x="167" y="81" width="8" height="24" rx="4"/>
+            <rect x="181" y="81" width="8" height="24" rx="4"/>
+          </g>
+          <!-- package sliding on espina with glow -->
+          <rect x="62" y="79" width="26" height="20" fill="#3483fa" opacity=".75" rx="3"/>
+          <text x="75" y="93" fill="#fff" font-size="7" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">PKG</text>
+          <!-- gravity arrow (diagonal) -->
+          <line x1="75" y1="99" x2="75" y2="118" stroke="#3483fa" stroke-width="1.5" stroke-dasharray="3,2" opacity=".7"/>
+          <polygon points="71,118 75,126 79,118" fill="#3483fa" opacity=".7"/>
+          <!-- ─── FINGER PERPENDICULAR ─── -->
+          <text x="248" y="14" fill="#ffe600" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">FINGER PERP.</text>
+          <!-- finger frame vertical -->
+          <rect x="236" y="18" width="5" height="162" fill="#ffe600" opacity=".5" rx="1"/>
+          <rect x="263" y="18" width="5" height="162" fill="#ffe600" opacity=".4" rx="1"/>
+          <!-- rollers finger perp -->
+          <g fill="#0b1e0d" stroke="#ffe600" stroke-width=".8">
+            <rect x="241" y="22"  width="22" height="8" rx="4"/>
+            <rect x="241" y="36"  width="22" height="8" rx="4"/>
+            <rect x="241" y="50"  width="22" height="8" rx="4"/>
+            <rect x="241" y="64"  width="22" height="8" rx="4"/>
+            <rect x="241" y="78"  width="22" height="8" rx="4"/>
+            <rect x="241" y="92"  width="22" height="8" rx="4"/>
+            <rect x="241" y="106" width="22" height="8" rx="4"/>
+            <rect x="241" y="120" width="22" height="8" rx="4"/>
+            <rect x="241" y="134" width="22" height="8" rx="4"/>
+            <rect x="241" y="148" width="22" height="8" rx="4"/>
+            <rect x="241" y="162" width="22" height="8" rx="4"/>
+          </g>
+          <!-- dashed connection between espina and finger -->
+          <line x1="200" y1="93" x2="236" y2="93" stroke="#ffe600" stroke-width="1.5" stroke-dasharray="4,3"/>
+          <polygon points="232,89 240,93 232,97" fill="#ffe600"/>
+          <!-- package sliding down finger -->
+          <rect x="238" y="105" width="26" height="20" fill="#ffe600" opacity=".45" rx="3"/>
+          <!-- gravity label -->
+          <text x="252" y="140" fill="#ffe600" font-size="7" text-anchor="middle" font-family="Segoe UI,Arial">↓ gravedad</text>
+          <!-- support legs espina -->
+          <rect x="13"  y="110" width="5" height="50" fill="#1a3356" rx="1"/>
+          <rect x="192" y="110" width="5" height="50" fill="#1a3356" rx="1"/>
+          <!-- floor line -->
+          <line x1="6" y1="160" x2="230" y2="160" stroke="#1a2d45" stroke-width="1.2"/>
+          <!-- dim annotation espina -->
+          <line x1="8"   y1="164" x2="8"   y2="170" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="200" y1="164" x2="200" y2="170" stroke="#3a5a80" stroke-width="1"/>
+          <line x1="10"  y1="167" x2="198" y2="167" stroke="#3a5a80" stroke-width="1"/>
+          <text x="104" y="180" fill="#7a8ba4" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">1,5m × 0,8m (central)</text>
+          <text x="252" y="180" fill="#7a8ba4" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">1,5m × 0,8m (perp.)</text>
+        </svg>
+        <p><b>Espina dorsal:</b> Fingers centrales en línea — el paquete se desliza por gravedad desde la inducción hasta su calle.<br><br><b>Finger perpendicular:</b> Mesa buffer a 90° de la espina. Evita que el producto quede en el suelo.</p>
+      </div>
+    </div>
+
+    <!-- CALLE SORTABLE -->
+    <div class="glosario-card">
+      <div class="gc-head"><div class="gc-head-dot"></div><h3>Dinámica — Calle Sortable</h3></div>
+      <div class="gc-body">
+        <svg viewBox="0 0 320 210" style="width:100%;background:#08111f;margin-bottom:12px;border-radius:6px" xmlns="http://www.w3.org/2000/svg">
+          <!-- ── CONVEYOR TOP ── -->
+          <rect x="8" y="8" width="200" height="16" fill="#0d2040" stroke="#3483fa" stroke-width="1.2" rx="2"/>
+          <text x="108" y="19" fill="#3483fa" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">CONVEYOR →</text>
+          <!-- packages on conveyor -->
+          <rect x="12" y="9"  width="18" height="12" fill="#ffe600" opacity=".5" rx="1.5"/>
+          <rect x="38" y="9"  width="16" height="12" fill="#3483fa" opacity=".5" rx="1.5"/>
+          <rect x="80" y="9"  width="18" height="12" fill="#ffe600" opacity=".42" rx="1.5"/>
+          <rect x="148" y="9" width="16" height="12" fill="#3483fa" opacity=".4" rx="1.5"/>
+          <!-- ── BAKER IZQUIERDO ── -->
+          <rect x="8" y="28" width="22" height="162" fill="#0a172a" stroke="#3483fa" stroke-width="1.2" rx="1"/>
+          <g stroke="#1e3a5a" stroke-width=".8">
+            <line x1="8" y1="46"  x2="30" y2="46"/>  <line x1="8" y1="62"  x2="30" y2="62"/>
+            <line x1="8" y1="78"  x2="30" y2="78"/>  <line x1="8" y1="94"  x2="30" y2="94"/>
+            <line x1="8" y1="110" x2="30" y2="110"/> <line x1="8" y1="126" x2="30" y2="126"/>
+            <line x1="8" y1="142" x2="30" y2="142"/> <line x1="8" y1="158" x2="30" y2="158"/>
+            <line x1="8" y1="174" x2="30" y2="174"/>
+          </g>
+          <text x="19" y="115" fill="#3483fa" font-size="6.5" text-anchor="middle" transform="rotate(-90,19,115)" font-family="Segoe UI,Arial" font-weight="700">BAKERS IZQ</text>
+          <!-- ── PASILLO OPERATIVO ── -->
+          <rect x="32" y="28" width="60" height="162" fill="#05090f" stroke="#1a2d45" stroke-width=".6"/>
+          <!-- ── PESCADOR (fijo, top) ── -->
+          <circle cx="62" cy="44" r="13" fill="#0e1d35" stroke="#ffe600" stroke-width="2"/>
+          <text x="62" y="49" fill="#ffe600" font-size="10" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">P</text>
+          <!-- label pescador -->
+          <rect x="36" y="62" width="52" height="11" fill="#0d1e10" stroke="#ffe600" stroke-width=".8" rx="2"/>
+          <text x="62" y="71" fill="#ffe600" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial">PESCADOR (fijo)</text>
+          <!-- arrow conveyor → pescador -->
+          <line x1="62" y1="24" x2="62" y2="30" stroke="#ffe600" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <polygon points="58,30 62,38 66,30" fill="#ffe600" opacity=".8"/>
+          <!-- ── CARRITOS BUFFER ── -->
+          <rect x="34" y="90" width="28" height="15" fill="#091a0e" stroke="#00a650" stroke-width="1" rx="2"/>
+          <text x="48" y="101" fill="#00a650" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">CARRITO 1</text>
+          <rect x="34" y="110" width="28" height="15" fill="#091a0e" stroke="#00a650" stroke-width="1" rx="2"/>
+          <text x="48" y="121" fill="#00a650" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">CARRITO 2</text>
+          <!-- ── SORTEADOR (móvil, bottom) ── -->
+          <circle cx="62" cy="168" r="13" fill="#0e1d35" stroke="#3483fa" stroke-width="2"/>
+          <text x="62" y="173" fill="#3483fa" font-size="10" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">S</text>
+          <rect x="36" y="185" width="52" height="11" fill="#0d1828" stroke="#3483fa" stroke-width=".8" rx="2"/>
+          <text x="62" y="194" fill="#3483fa" font-size="6.5" text-anchor="middle" font-family="Segoe UI,Arial">SORTEADOR (móvil)</text>
+          <!-- ── BAKER DERECHO ── -->
+          <rect x="94" y="28" width="22" height="162" fill="#0a172a" stroke="#3483fa" stroke-width="1.2" rx="1"/>
+          <g stroke="#1e3a5a" stroke-width=".8">
+            <line x1="94" y1="46"  x2="116" y2="46"/>  <line x1="94" y1="62"  x2="116" y2="62"/>
+            <line x1="94" y1="78"  x2="116" y2="78"/>  <line x1="94" y1="94"  x2="116" y2="94"/>
+            <line x1="94" y1="110" x2="116" y2="110"/> <line x1="94" y1="126" x2="116" y2="126"/>
+            <line x1="94" y1="142" x2="116" y2="142"/> <line x1="94" y1="158" x2="116" y2="158"/>
+            <line x1="94" y1="174" x2="116" y2="174"/>
+          </g>
+          <text x="105" y="115" fill="#3483fa" font-size="6.5" text-anchor="middle" transform="rotate(-90,105,115)" font-family="Segoe UI,Arial" font-weight="700">BAKERS DER</text>
+          <!-- ── PANEL DIMENSIONES ── -->
+          <rect x="128" y="28" width="178" height="152" fill="#060d1a" stroke="#1a2d45" stroke-width="1" rx="4"/>
+          <!-- dim rows -->
+          <text x="138" y="46"  fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Ancho total</text>
+          <text x="276" y="46"  fill="#ffe600" font-size="12" text-anchor="end" font-family="Segoe UI,Arial" font-weight="700">2,5 m</text>
+          <line x1="138" y1="52" x2="290" y2="52" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="138" y="65"  fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Baker (cada lado)</text>
+          <text x="276" y="65"  fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">0,6 m</text>
+          <line x1="138" y1="71" x2="290" y2="71" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="138" y="84"  fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Pasillo central</text>
+          <text x="276" y="84"  fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">1,3 m</text>
+          <line x1="138" y1="90" x2="290" y2="90" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="138" y="103" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Largo calle</text>
+          <text x="276" y="103" fill="#ffe600" font-size="12" text-anchor="end" font-family="Segoe UI,Arial" font-weight="700">8 m</text>
+          <line x1="138" y1="109" x2="290" y2="109" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="138" y="122" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Bakers / calle</text>
+          <text x="276" y="122" fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">15</text>
+          <line x1="138" y1="128" x2="290" y2="128" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="138" y="141" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Carritos / calle</text>
+          <text x="276" y="141" fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">4</text>
+          <line x1="138" y1="147" x2="290" y2="147" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="138" y="160" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Productividad</text>
+          <text x="276" y="160" fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">350 pct/h</text>
+          <!-- total badge -->
+          <rect x="138" y="165" width="144" height="10" fill="#1a2d10" rx="2"/>
+          <text x="210" y="173" fill="#3483fa" font-size="8" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">× 11 calles total · 3.850 pct/h</text>
+          <!-- bottom note -->
+          <text x="160" y="203" fill="#4a6b90" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">P fijo · S se mueve por la calle asignando al baker correcto</text>
+        </svg>
+        <p><b>P = Pescador</b> (fijo junto al conveyor): identifica y carga paquetes de sus rutas en los carritos buffer.<br><br><b>S = Sorteador</b> (se mueve por la calle): distribuye los paquetes de los carritos a los bakers correctos.</p>
+      </div>
+    </div>
+
+    <!-- CALLE VOLUMINOSO -->
+    <div class="glosario-card">
+      <div class="gc-head"><div class="gc-head-dot"></div><h3>Dinámica — Calle Voluminoso</h3></div>
+      <div class="gc-body">
+        <svg viewBox="0 0 320 210" style="width:100%;background:#08111f;margin-bottom:12px;border-radius:6px" xmlns="http://www.w3.org/2000/svg">
+          <!-- ── ESPINA DORSAL (top) ── -->
+          <rect x="8" y="8" width="168" height="16" fill="#0d2d1a" stroke="#00a650" stroke-width="1.2" rx="2"/>
+          <text x="92" y="19" fill="#00a650" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">← ESPINA DORSAL →</text>
+          <!-- flow central block -->
+          <rect x="8" y="26" width="34" height="16" fill="#1a2d10" stroke="#ffe600" stroke-width="1" rx="2"/>
+          <text x="25" y="37" fill="#ffe600" font-size="7" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">FLOW CTL</text>
+          <!-- arrow espina → calle -->
+          <line x1="25" y1="42" x2="25" y2="50" stroke="#ffe600" stroke-width="1.5" stroke-dasharray="2,2"/>
+          <polygon points="21,50 25,58 29,50" fill="#ffe600" opacity=".85"/>
+          <!-- ── BAKER IZQ ── -->
+          <rect x="8" y="44" width="22" height="152" fill="#0a172a" stroke="#3483fa" stroke-width="1.2" rx="1"/>
+          <g stroke="#1e3a5a" stroke-width=".8">
+            <line x1="8"  y1="64"  x2="30" y2="64"/>  <line x1="8"  y1="84"  x2="30" y2="84"/>
+            <line x1="8"  y1="104" x2="30" y2="104"/> <line x1="8"  y1="124" x2="30" y2="124"/>
+            <line x1="8"  y1="144" x2="30" y2="144"/> <line x1="8"  y1="164" x2="30" y2="164"/>
+            <line x1="8"  y1="184" x2="30" y2="184"/>
+          </g>
+          <text x="19" y="124" fill="#3483fa" font-size="6" text-anchor="middle" transform="rotate(-90,19,124)" font-family="Segoe UI,Arial" font-weight="700">BAKERS IZQ</text>
+          <!-- ── FINGER PERPENDICULAR ── -->
+          <rect x="32" y="44" width="16" height="152" fill="#0b1e0d" stroke="#ffe600" stroke-width="1.2" rx="1"/>
+          <g fill="#0d2a0d" stroke="#ffe600" stroke-width=".7">
+            <rect x="33" y="50"  width="14" height="9" rx="3"/>
+            <rect x="33" y="65"  width="14" height="9" rx="3"/>
+            <rect x="33" y="80"  width="14" height="9" rx="3"/>
+            <rect x="33" y="95"  width="14" height="9" rx="3"/>
+            <rect x="33" y="110" width="14" height="9" rx="3"/>
+            <rect x="33" y="125" width="14" height="9" rx="3"/>
+            <rect x="33" y="140" width="14" height="9" rx="3"/>
+            <rect x="33" y="155" width="14" height="9" rx="3"/>
+            <rect x="33" y="170" width="14" height="9" rx="3"/>
+            <rect x="33" y="185" width="14" height="9" rx="3"/>
+          </g>
+          <text x="40" y="124" fill="#ffe600" font-size="6" text-anchor="middle" transform="rotate(-90,40,124)" font-family="Segoe UI,Arial" font-weight="700">FINGER</text>
+          <!-- ── PASILLO ── -->
+          <rect x="50" y="44" width="22" height="152" fill="#04080f" stroke="#1a2d45" stroke-width=".6"/>
+          <!-- Pescador (top of pasillo) -->
+          <circle cx="61" cy="60" r="12" fill="#0e1d35" stroke="#ffe600" stroke-width="2"/>
+          <text x="61" y="65" fill="#ffe600" font-size="10" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">P</text>
+          <!-- Sorteador (mid pasillo) -->
+          <circle cx="61" cy="145" r="12" fill="#0e1d35" stroke="#3483fa" stroke-width="2"/>
+          <text x="61" y="150" fill="#3483fa" font-size="10" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">S</text>
+          <!-- paquete vol -->
+          <rect x="33" y="55" width="30" height="20" fill="#9a3412" opacity=".7" rx="2"/>
+          <text x="48" y="68" fill="#fff" font-size="6" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">VOL</text>
+          <!-- ── BAKER DER ── -->
+          <rect x="74" y="44" width="22" height="152" fill="#0a172a" stroke="#3483fa" stroke-width="1.2" rx="1"/>
+          <g stroke="#1e3a5a" stroke-width=".8">
+            <line x1="74" y1="64"  x2="96" y2="64"/>  <line x1="74" y1="84"  x2="96" y2="84"/>
+            <line x1="74" y1="104" x2="96" y2="104"/> <line x1="74" y1="124" x2="96" y2="124"/>
+            <line x1="74" y1="144" x2="96" y2="144"/> <line x1="74" y1="164" x2="96" y2="164"/>
+            <line x1="74" y1="184" x2="96" y2="184"/>
+          </g>
+          <text x="85" y="124" fill="#3483fa" font-size="6" text-anchor="middle" transform="rotate(-90,85,124)" font-family="Segoe UI,Arial" font-weight="700">BAKERS DER</text>
+          <!-- ── PANEL DIMENSIONES ── -->
+          <rect x="110" y="28" width="196" height="166" fill="#060d1a" stroke="#1a2d45" stroke-width="1" rx="4"/>
+          <text x="120" y="46"  fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Ancho total</text>
+          <text x="296" y="46"  fill="#ffe600" font-size="12" text-anchor="end" font-family="Segoe UI,Arial" font-weight="700">3,0 m</text>
+          <line x1="120" y1="52" x2="298" y2="52" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="120" y="65"  fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Baker (cada lado)</text>
+          <text x="296" y="65"  fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">0,6 m</text>
+          <line x1="120" y1="71" x2="298" y2="71" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="120" y="84"  fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Finger perp.</text>
+          <text x="296" y="84"  fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">0,8 m</text>
+          <line x1="120" y1="90" x2="298" y2="90" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="120" y="103" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Pasillo sorteador</text>
+          <text x="296" y="103" fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">1,0 m</text>
+          <line x1="120" y1="109" x2="298" y2="109" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="120" y="122" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Largo calle</text>
+          <text x="296" y="122" fill="#ffe600" font-size="12" text-anchor="end" font-family="Segoe UI,Arial" font-weight="700">13,5 m</text>
+          <line x1="120" y1="128" x2="298" y2="128" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="120" y="141" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Bakers / calle</text>
+          <text x="296" y="141" fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">24</text>
+          <line x1="120" y1="147" x2="298" y2="147" stroke="#1a2d45" stroke-width=".8"/>
+          <text x="120" y="160" fill="#7a8ba4" font-size="8" font-family="Segoe UI,Arial">Productividad</text>
+          <text x="296" y="160" fill="#e2e8f0" font-size="9" text-anchor="end" font-family="Segoe UI,Arial">50 pct/h</text>
+          <!-- total badge -->
+          <rect x="120" y="168" width="168" height="11" fill="#0a1e0e" rx="2"/>
+          <text x="204" y="177" fill="#00a650" font-size="8.5" text-anchor="middle" font-family="Segoe UI,Arial" font-weight="700">× 19 calles · sin carritos</text>
+          <!-- bottom note -->
+          <text x="160" y="202" fill="#4a6b90" font-size="7.5" text-anchor="middle" font-family="Segoe UI,Arial">Finger reemplaza al carrito — el pkg nunca toca el suelo</text>
+        </svg>
+        <p><b>Flujo:</b> Flow central → espina (deslizamiento) → pescador empuja al finger → sorteador asigna al baker.<br><br><b>Sin carritos:</b> el finger actúa como mesa buffer. El paquete nunca toca el suelo.</p>
+      </div>
+    </div>
+
+  </div>
+
+  <!-- ── CONCLUSIÓN FINAL ── -->
+  <div class="detail-divider" style="margin-top:48px">Recomendación y cierre</div>
+
+  <div style="background:#0d1828;border:1px solid #1c2d48;border-radius:var(--radius);padding:32px 36px;margin-bottom:16px;box-shadow:var(--shadow)">
+
+    <div style="display:flex;align-items:center;gap:12px;margin-bottom:24px">
+      <div style="width:6px;height:48px;background:var(--yellow);border-radius:3px;flex-shrink:0"></div>
+      <div>
+        <div style="color:var(--yellow);font-size:11px;font-weight:700;text-transform:uppercase;letter-spacing:.8px;margin-bottom:4px">Recomendación</div>
+        <div style="color:var(--txt);font-size:20px;font-weight:800;line-height:1.2">Este diseño es viable, eficiente y ejecutable con el presupuesto mínimo necesario.</div>
+      </div>
+    </div>
+
+    <p style="color:var(--txt2);font-size:14px;line-height:1.85;margin-bottom:28px">
+      El Service Center propuesto puede procesar <b style="color:var(--txt)">24.000 paquetes diarios</b> en dos turnos, dentro de una nave de 6.000 m², con una inversión de <b style="color:var(--yellow)">$523.200</b>.
+      El diseño fue dimensionado para el escenario más exigente — el turno AM — garantizando que si funciona en el pico, funciona siempre.
+      La decisión de reutilizar los bakers entre turnos no es un atajo: es la palanca más eficiente disponible y reduce el CAPEX en un <b style="color:var(--yellow)">43%</b> sin resignar capacidad operativa.
+    </p>
+
+    <div style="display:grid;grid-template-columns:1fr 1fr 1fr;gap:14px;margin-bottom:28px">
+      <div style="background:#060d1a;border:1px solid #1a2d45;border-radius:8px;padding:16px 18px">
+        <div style="color:#3483fa;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Lo que este diseño garantiza</div>
+        <p style="color:var(--txt2);font-size:12.5px;line-height:1.7">
+          — Sin cuellos de botella en inducción (15% de margen)<br>
+          — Todos los bakers despachan en la ventana de 3hs<br>
+          — El paquete nunca toca el suelo en voluminoso<br>
+          — Flujos de entrada y salida completamente separados
+        </p>
+      </div>
+      <div style="background:#060d1a;border:1px solid #1a2d45;border-radius:8px;padding:16px 18px">
+        <div style="color:var(--yellow);font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">La decisión clave del diseño</div>
+        <p style="color:var(--txt2);font-size:12.5px;line-height:1.7">
+          La configuración herringbone en voluminoso reduce la espina de 57m a 30m.
+          Combinada con la reutilización de bakers, son las dos decisiones que más impactan en metros cuadrados y en CAPEX — y ninguna de las dos requiere mayor inversión, solo criterio.
+        </p>
+      </div>
+      <div style="background:#060d1a;border:1px solid #1a2d45;border-radius:8px;padding:16px 18px">
+        <div style="color:#e53935;font-size:10px;font-weight:700;text-transform:uppercase;letter-spacing:.5px;margin-bottom:8px">Principal riesgo operativo</div>
+        <p style="color:var(--txt2);font-size:12.5px;line-height:1.7">
+          El sistema depende de que los camiones del turno AM liberen las plazas de Stage Out dentro de la ventana de 30 minutos.
+          Si el despacho se demora, los bakers llenos se acumulan en maniobra y bloquean las calles de clasificación.
+          El protocolo de despacho es tan crítico como el equipamiento.
+        </p>
+      </div>
+    </div>
+
+    <div style="border-top:1px solid #1a2d45;padding-top:20px;display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:12px">
+      <div style="display:flex;gap:24px;flex-wrap:wrap">
+        <div><span style="color:var(--txt2);font-size:11px">CAPEX total</span><br><span style="color:var(--yellow);font-size:20px;font-weight:800">$523.200</span></div>
+        <div><span style="color:var(--txt2);font-size:11px">Ahorro vs. base</span><br><span style="color:var(--green);font-size:20px;font-weight:800">-$377.000</span></div>
+        <div><span style="color:var(--txt2);font-size:11px">Bakers necesarios</span><br><span style="color:var(--txt);font-size:20px;font-weight:800">617</span></div>
+        <div><span style="color:var(--txt2);font-size:11px">Plazas Stage Out</span><br><span style="color:var(--txt);font-size:20px;font-weight:800">103</span></div>
+      </div>
+      <div style="color:#3a5070;font-size:11px;text-align:right;line-height:1.6">
+        Gonzalo Florez · Analista de Expansión<br>
+        Mercado Libre Argentina · Abril 2026
+      </div>
+    </div>
+
+  </div>
+
+</div>
+
+<script>
+function entrar() {
+  const p = document.getElementById('portada');
+  p.style.opacity = '1';
+  p.style.transition = 'opacity .4s ease';
+  setTimeout(() => { p.style.opacity = '0'; }, 50);
+  setTimeout(() => { p.classList.add('hidden'); }, 450);
+}
+function show(id, btn) {
+  document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+  document.querySelectorAll('.nav-btn').forEach(b => b.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  btn.classList.add('active');
+}
+</script>
+</body>
+</html>
