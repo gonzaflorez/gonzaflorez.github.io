@@ -720,14 +720,6 @@ tr.hl td { color: var(--yellow); }
     <p>En cada calle sortable trabajan dos personas: el <b>pescador</b> (saca paquetes de la cinta y los pone en un carrito buffer) y el <b>sorteador</b> (toma el carrito y mete cada paquete en su baker). Para que el pescador no frene cuando el sorteador no está, necesita 2 carritos de buffer — uno que está llenando y otro que ya está listo para que el sorteador lo lleve. El sorteador también necesita 2 para no volver con las manos vacías. Total: <b>4 carritos por calle × 11 calles = 44 carritos</b>. Al igual que los bakers, se reutilizan entre turnos.</p>
   </div>
 
-  <div class="sec-title">Sugerencias de Mejora</div>
-  <div class="suggestions">
-    <div class="sug"><h4>1. Gestión pico de inducción</h4><p>Capacidad instalada: 4.200 pct/h vs 3.648 pct/h requeridos (+15% de margen). Se recomienda operar con 2 módulos en ciclo PM y reservar el 3ro como backup.</p></div>
-    <div class="sug"><h4>2. Reducción calles voluminoso</h4><p>Las 19 calles resultan de la baja productividad de 50 pct/h. Elevar a 70 pct/h con mejor dinámica reduciría a 14 calles (-26%), liberando ~15m lineales de espina.</p></div>
-    <div class="sug"><h4>3. Reutilización total activos móviles</h4><p>Bakers y carritos reutilizados entre ciclos reducen la compra en 43% del CAPEX. Con 3+ ciclos la curva de ahorro es exponencial.</p></div>
-    <div class="sug green"><h4>4. Layout herringbone en voluminoso</h4><p>Configuración herringbone (espina central + calles perpendiculares en ambos lados) reduce los metros lineales de espina de ~57m a 30m.</p></div>
-  </div>
-
   <div class="next-bar">
     <span class="next-hint">¿Cuánto cuesta todo esto?</span>
     <button class="next-btn" onclick="show('capex', document.querySelectorAll('.nav-btn')[1])">② Ver CAPEX →</button>
