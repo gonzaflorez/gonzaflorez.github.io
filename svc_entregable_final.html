@@ -590,6 +590,10 @@ tr.hl td { color: var(--yellow); }
       </tbody>
     </table>
   </div>
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>Los 24.000 paquetes/día se dividen en dos turnos según la distribución dada: 57% en AM y 43% en PM. Eso da 13.680 en el turno pico. Dentro de cada turno, el enunciado dice que el 80% son sortables (paquetes chicos) y el 20% son voluminosos (paquetes grandes). <b>El dimensionamiento de todo — calles, bakers, conveyor, stage out — se hace sobre el AM, que es el peor caso.</b> Si el sistema aguanta el AM, el PM lo maneja holgado.</p>
+  </div>
 
   <div class="sec-title">1.2 — Estaciones de Inducción</div>
   <div class="tbl-wrap">
@@ -605,6 +609,10 @@ tr.hl td { color: var(--yellow); }
     <h4>Premisa adoptada</h4>
     <p>El enunciado menciona "único módulo" como descripción del diseño-tipo, no como restricción de cantidad. Se proyectan 3 módulos por ser el mínimo operativo para no generar cuello de botella en ciclo AM.</p>
   </div>
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>El turno AM dura 3 horas. En esas 3 horas hay que meter 10.944 sortables al sistema → necesito 10.944 ÷ 3 = <b>3.648 pct/h de capacidad de inducción sortable</b>. Cada módulo procesa 1.400 pct/h → necesito 3.648 ÷ 1.400 = 2,6 → redondeé a <b>3 módulos</b>. Para voluminosos igual: 2.736 ÷ 3 = 912 pct/h, cada flow central hace 400 → 912 ÷ 400 = 2,28 → <b>3 flow centrals</b>. Siempre redondo para arriba para no quedar corto.</p>
+  </div>
 
   <div class="sec-title">1.3 — Calles de Sorting</div>
   <div class="tbl-wrap">
@@ -617,6 +625,11 @@ tr.hl td { color: var(--yellow); }
     </table>
   </div>
 
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>Ya sé cuántos paquetes por hora necesito procesar en cada tipo. Ahora divido eso entre lo que produce <b>una sola calle</b>. Sortable: 3.648 ÷ 350 = 10,4 → <b>11 calles</b>. Voluminoso: 912 ÷ 50 = 18,2 → <b>19 calles</b>. El voluminoso necesita tantas calles porque la productividad por calle es muy baja — los paquetes grandes son lentos de clasificar. Eso explica por qué el área de voluminosos ocupa tanto espacio en el layout.</p>
+  </div>
+
   <div class="sec-title">1.4 — Bakers (Jaulas)</div>
   <div class="tbl-wrap">
     <table>
@@ -627,6 +640,11 @@ tr.hl td { color: var(--yellow); }
         <tr class="hl"><td><b>TOTAL compra</b></td><td colspan="3" style="color:var(--green)">✓ Reutilización entre ciclos — compra = 1 set (ciclo AM pico)</td><td class="val">617</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>Cada baker representa una ruta de entrega. Entonces: <b>¿cuántos paquetes caben en un baker?</b> En sortable, la jaula estándar entra 68 paquetes → 10.944 ÷ 68 = 160,9 → <b>161 bakers</b>. En voluminoso los paquetes son grandes y solo entran 6 por jaula → 2.736 ÷ 6 = <b>456 bakers</b>. Total: 617. El gran ahorro: <b>no compramos el doble para el turno PM</b>. Entre turnos hay tiempo suficiente para que los camiones despachen y las jaulas vuelvan vacías. Un solo set de 617 cubre los dos turnos.</p>
   </div>
 
   <div class="sec-title">1.5 — Dimensiones de las Calles</div>
@@ -646,6 +664,11 @@ tr.hl td { color: var(--yellow); }
         <b>Largo:</b> 456 bakers ÷ 19 calles = 24 bakers/calle → 12 por lado → 12 × 1,0m + finger 1,5m = <b class="val">13,5m</b>
       </p>
     </div>
+  </div>
+
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>Necesito que la cinta pase por delante de <b>todas las calles sortable</b> y también por el bloque de inducción donde los paquetes entran. Calle sortable: 2,5m de ancho × 11 calles = 27,5m. Bloque de inducción: 3 módulos de 1m + 2 espaciados de 0,8m = 4,6m. Más una tolerancia de instalación de 0,9m. Total: <b>33m de cinta motorizada</b>. Si la cinta fuera más corta, alguna calle quedaría sin cobertura y el paquete no llega.</p>
   </div>
 
   <div class="sec-title">1.6 — Conveyor Motorizado</div>
@@ -676,6 +699,11 @@ tr.hl td { color: var(--yellow); }
     </table>
   </div>
 
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>Tengo 617 bakers que despachar en una <b>ventana de 3 horas (180 min)</b>. Cada camión llega, carga sus bakers y se va en <b>30 minutos</b>. Entonces cada plaza de carga rota 180 ÷ 30 = <b>6 veces</b> en esa ventana. Si cada plaza rota 6 veces, necesito 617 ÷ 6 = 102,8 → <b>103 plazas</b>. Sin rotación necesitaría 617 plazas — eso sería casi toda la nave. La rotación es lo que hace viable el stage out en 6.000 m².</p>
+  </div>
+
   <div class="sec-title">1.8 — Carritos de Supermercado</div>
   <div class="tbl-wrap">
     <table>
@@ -685,6 +713,11 @@ tr.hl td { color: var(--yellow); }
         <tr class="hl"><td><b>Total compra (reutilizados AM↔PM)</b></td><td>11 × 4</td><td class="val">44 carritos</td></tr>
       </tbody>
     </table>
+  </div>
+
+  <div class="sug" style="margin-bottom:24px">
+    <h4>💡 Cómo llegué a estos números</h4>
+    <p>En cada calle sortable trabajan dos personas: el <b>pescador</b> (saca paquetes de la cinta y los pone en un carrito buffer) y el <b>sorteador</b> (toma el carrito y mete cada paquete en su baker). Para que el pescador no frene cuando el sorteador no está, necesita 2 carritos de buffer — uno que está llenando y otro que ya está listo para que el sorteador lo lleve. El sorteador también necesita 2 para no volver con las manos vacías. Total: <b>4 carritos por calle × 11 calles = 44 carritos</b>. Al igual que los bakers, se reutilizan entre turnos.</p>
   </div>
 
   <div class="sec-title">Sugerencias de Mejora</div>
